@@ -131,7 +131,7 @@ public class MyGrammarParser extends Parser {
 				setState(9); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << FACT) | (1L << INT))) != 0) );
+			} while ( _la==T__0 || _la==INT );
 			setState(11);
 			match(EOF);
 			}
@@ -315,31 +315,20 @@ public class MyGrammarParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(23);
+			setState(21);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case FACT:
-				{
-				_localctx = new FactContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-
-				setState(16);
-				((FactContext)_localctx).op = match(FACT);
-				setState(17);
-				expr(3);
-				}
-				break;
 			case T__0:
 				{
 				_localctx = new ParensContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(18);
+
+				setState(16);
 				match(T__0);
-				setState(19);
+				setState(17);
 				expr(0);
-				setState(20);
+				setState(18);
 				match(T__1);
 				}
 				break;
@@ -348,7 +337,7 @@ public class MyGrammarParser extends Parser {
 				_localctx = new IntContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(22);
+				setState(20);
 				match(INT);
 				}
 				break;
@@ -371,9 +360,9 @@ public class MyGrammarParser extends Parser {
 						{
 						_localctx = new MulDivContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(25);
+						setState(23);
 						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(26);
+						setState(24);
 						((MulDivContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==MUL || _la==DIV) ) {
@@ -384,7 +373,7 @@ public class MyGrammarParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(27);
+						setState(25);
 						expr(7);
 						}
 						break;
@@ -392,9 +381,9 @@ public class MyGrammarParser extends Parser {
 						{
 						_localctx = new AddSubContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(28);
+						setState(26);
 						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(29);
+						setState(27);
 						((AddSubContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==ADD || _la==SUB) ) {
@@ -405,7 +394,7 @@ public class MyGrammarParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(30);
+						setState(28);
 						expr(6);
 						}
 						break;
@@ -413,12 +402,22 @@ public class MyGrammarParser extends Parser {
 						{
 						_localctx = new PowContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(31);
+						setState(29);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(32);
+						setState(30);
 						((PowContext)_localctx).op = match(POW);
-						setState(33);
+						setState(31);
 						expr(5);
+						}
+						break;
+					case 4:
+						{
+						_localctx = new FactContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(32);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(33);
+						((FactContext)_localctx).op = match(FACT);
 						}
 						break;
 					}
@@ -456,6 +455,8 @@ public class MyGrammarParser extends Parser {
 			return precpred(_ctx, 5);
 		case 2:
 			return precpred(_ctx, 4);
+		case 3:
+			return precpred(_ctx, 3);
 		}
 		return true;
 	}
@@ -464,31 +465,31 @@ public class MyGrammarParser extends Parser {
 		"\u0004\u0001\n(\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0001\u0000\u0004\u0000\b\b\u0000\u000b\u0000\f\u0000"+
 		"\t\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0002\u0001\u0002"+
+		"\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0003\u0002\u0016\b\u0002"+
 		"\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
-		"\u0003\u0002\u0018\b\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
 		"\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0005\u0002"+
 		"#\b\u0002\n\u0002\f\u0002&\t\u0002\u0001\u0002\u0000\u0001\u0004\u0003"+
 		"\u0000\u0002\u0004\u0000\u0002\u0001\u0000\u0003\u0004\u0001\u0000\u0005"+
 		"\u0006*\u0000\u0007\u0001\u0000\u0000\u0000\u0002\r\u0001\u0000\u0000"+
-		"\u0000\u0004\u0017\u0001\u0000\u0000\u0000\u0006\b\u0003\u0002\u0001\u0000"+
+		"\u0000\u0004\u0015\u0001\u0000\u0000\u0000\u0006\b\u0003\u0002\u0001\u0000"+
 		"\u0007\u0006\u0001\u0000\u0000\u0000\b\t\u0001\u0000\u0000\u0000\t\u0007"+
 		"\u0001\u0000\u0000\u0000\t\n\u0001\u0000\u0000\u0000\n\u000b\u0001\u0000"+
 		"\u0000\u0000\u000b\f\u0005\u0000\u0000\u0001\f\u0001\u0001\u0000\u0000"+
 		"\u0000\r\u000e\u0003\u0004\u0002\u0000\u000e\u0003\u0001\u0000\u0000\u0000"+
-		"\u000f\u0010\u0006\u0002\uffff\uffff\u0000\u0010\u0011\u0005\b\u0000\u0000"+
-		"\u0011\u0018\u0003\u0004\u0002\u0003\u0012\u0013\u0005\u0001\u0000\u0000"+
-		"\u0013\u0014\u0003\u0004\u0002\u0000\u0014\u0015\u0005\u0002\u0000\u0000"+
-		"\u0015\u0018\u0001\u0000\u0000\u0000\u0016\u0018\u0005\t\u0000\u0000\u0017"+
-		"\u000f\u0001\u0000\u0000\u0000\u0017\u0012\u0001\u0000\u0000\u0000\u0017"+
-		"\u0016\u0001\u0000\u0000\u0000\u0018$\u0001\u0000\u0000\u0000\u0019\u001a"+
-		"\n\u0006\u0000\u0000\u001a\u001b\u0007\u0000\u0000\u0000\u001b#\u0003"+
-		"\u0004\u0002\u0007\u001c\u001d\n\u0005\u0000\u0000\u001d\u001e\u0007\u0001"+
-		"\u0000\u0000\u001e#\u0003\u0004\u0002\u0006\u001f \n\u0004\u0000\u0000"+
-		" !\u0005\u0007\u0000\u0000!#\u0003\u0004\u0002\u0005\"\u0019\u0001\u0000"+
-		"\u0000\u0000\"\u001c\u0001\u0000\u0000\u0000\"\u001f\u0001\u0000\u0000"+
-		"\u0000#&\u0001\u0000\u0000\u0000$\"\u0001\u0000\u0000\u0000$%\u0001\u0000"+
-		"\u0000\u0000%\u0005\u0001\u0000\u0000\u0000&$\u0001\u0000\u0000\u0000"+
-		"\u0004\t\u0017\"$";
+		"\u000f\u0010\u0006\u0002\uffff\uffff\u0000\u0010\u0011\u0005\u0001\u0000"+
+		"\u0000\u0011\u0012\u0003\u0004\u0002\u0000\u0012\u0013\u0005\u0002\u0000"+
+		"\u0000\u0013\u0016\u0001\u0000\u0000\u0000\u0014\u0016\u0005\t\u0000\u0000"+
+		"\u0015\u000f\u0001\u0000\u0000\u0000\u0015\u0014\u0001\u0000\u0000\u0000"+
+		"\u0016$\u0001\u0000\u0000\u0000\u0017\u0018\n\u0006\u0000\u0000\u0018"+
+		"\u0019\u0007\u0000\u0000\u0000\u0019#\u0003\u0004\u0002\u0007\u001a\u001b"+
+		"\n\u0005\u0000\u0000\u001b\u001c\u0007\u0001\u0000\u0000\u001c#\u0003"+
+		"\u0004\u0002\u0006\u001d\u001e\n\u0004\u0000\u0000\u001e\u001f\u0005\u0007"+
+		"\u0000\u0000\u001f#\u0003\u0004\u0002\u0005 !\n\u0003\u0000\u0000!#\u0005"+
+		"\b\u0000\u0000\"\u0017\u0001\u0000\u0000\u0000\"\u001a\u0001\u0000\u0000"+
+		"\u0000\"\u001d\u0001\u0000\u0000\u0000\" \u0001\u0000\u0000\u0000#&\u0001"+
+		"\u0000\u0000\u0000$\"\u0001\u0000\u0000\u0000$%\u0001\u0000\u0000\u0000"+
+		"%\u0005\u0001\u0000\u0000\u0000&$\u0001\u0000\u0000\u0000\u0004\t\u0015"+
+		"\"$";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

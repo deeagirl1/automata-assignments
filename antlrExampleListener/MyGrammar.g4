@@ -9,7 +9,7 @@ stat:   expr;
 expr:   expr op=(MUL|DIV) expr #  MulDiv
     |   expr op=(ADD|SUB) expr #  AddSub
     |   expr op=POW expr #  Pow
-    |   op=FACT expr  #  Fact
+    |   expr op=FACT  #  Fact
     |   '(' expr ')'  # parens
     |   INT     # int
     ;
