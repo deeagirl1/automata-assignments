@@ -17,7 +17,8 @@ public class MyGrammarLexer extends Lexer {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, MUL=3, DIV=4, ADD=5, SUB=6, POW=7, FACT=8, INT=9, WS=10;
+		MUL=1, DIV=2, ADD=3, SUB=4, POW=5, FACT=6, PARANL=7, PARANR=8, INT=9, 
+		WS=10;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
@@ -28,20 +29,22 @@ public class MyGrammarLexer extends Lexer {
 
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"T__0", "T__1", "MUL", "DIV", "ADD", "SUB", "POW", "FACT", "INT", "WS"
+			"MUL", "DIV", "ADD", "SUB", "POW", "FACT", "PARANL", "PARANR", "INT", 
+			"WS"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'('", "')'", "'*'", "'/'", "'+'", "'-'", "'^'", "'!'"
+			null, "'*'", "'/'", "'+'", "'-'", "'^'", "'!'", "'('", "')'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, "MUL", "DIV", "ADD", "SUB", "POW", "FACT", "INT", "WS"
+			null, "MUL", "DIV", "ADD", "SUB", "POW", "FACT", "PARANL", "PARANR", 
+			"INT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -122,13 +125,13 @@ public class MyGrammarLexer extends Lexer {
 		"\u0000\u0000\u0007\u001b\u0001\u0000\u0000\u0000\t\u001d\u0001\u0000\u0000"+
 		"\u0000\u000b\u001f\u0001\u0000\u0000\u0000\r!\u0001\u0000\u0000\u0000"+
 		"\u000f#\u0001\u0000\u0000\u0000\u0011&\u0001\u0000\u0000\u0000\u0013+"+
-		"\u0001\u0000\u0000\u0000\u0015\u0016\u0005(\u0000\u0000\u0016\u0002\u0001"+
-		"\u0000\u0000\u0000\u0017\u0018\u0005)\u0000\u0000\u0018\u0004\u0001\u0000"+
-		"\u0000\u0000\u0019\u001a\u0005*\u0000\u0000\u001a\u0006\u0001\u0000\u0000"+
-		"\u0000\u001b\u001c\u0005/\u0000\u0000\u001c\b\u0001\u0000\u0000\u0000"+
-		"\u001d\u001e\u0005+\u0000\u0000\u001e\n\u0001\u0000\u0000\u0000\u001f"+
-		" \u0005-\u0000\u0000 \f\u0001\u0000\u0000\u0000!\"\u0005^\u0000\u0000"+
-		"\"\u000e\u0001\u0000\u0000\u0000#$\u0005!\u0000\u0000$\u0010\u0001\u0000"+
+		"\u0001\u0000\u0000\u0000\u0015\u0016\u0005*\u0000\u0000\u0016\u0002\u0001"+
+		"\u0000\u0000\u0000\u0017\u0018\u0005/\u0000\u0000\u0018\u0004\u0001\u0000"+
+		"\u0000\u0000\u0019\u001a\u0005+\u0000\u0000\u001a\u0006\u0001\u0000\u0000"+
+		"\u0000\u001b\u001c\u0005-\u0000\u0000\u001c\b\u0001\u0000\u0000\u0000"+
+		"\u001d\u001e\u0005^\u0000\u0000\u001e\n\u0001\u0000\u0000\u0000\u001f"+
+		" \u0005!\u0000\u0000 \f\u0001\u0000\u0000\u0000!\"\u0005(\u0000\u0000"+
+		"\"\u000e\u0001\u0000\u0000\u0000#$\u0005)\u0000\u0000$\u0010\u0001\u0000"+
 		"\u0000\u0000%\'\u0007\u0000\u0000\u0000&%\u0001\u0000\u0000\u0000\'(\u0001"+
 		"\u0000\u0000\u0000(&\u0001\u0000\u0000\u0000()\u0001\u0000\u0000\u0000"+
 		")\u0012\u0001\u0000\u0000\u0000*,\u0007\u0001\u0000\u0000+*\u0001\u0000"+

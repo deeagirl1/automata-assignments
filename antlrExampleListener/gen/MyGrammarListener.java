@@ -28,6 +28,42 @@ public interface MyGrammarListener extends ParseTreeListener {
 	 */
 	void exitStat(MyGrammarParser.StatContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Div}
+	 * labeled alternative in {@link MyGrammarParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterDiv(MyGrammarParser.DivContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Div}
+	 * labeled alternative in {@link MyGrammarParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitDiv(MyGrammarParser.DivContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link MyGrammarParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterAdd(MyGrammarParser.AddContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link MyGrammarParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitAdd(MyGrammarParser.AddContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Sub}
+	 * labeled alternative in {@link MyGrammarParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterSub(MyGrammarParser.SubContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Sub}
+	 * labeled alternative in {@link MyGrammarParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitSub(MyGrammarParser.SubContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code parens}
 	 * labeled alternative in {@link MyGrammarParser#expr}.
 	 * @param ctx the parse tree
@@ -40,29 +76,17 @@ public interface MyGrammarListener extends ParseTreeListener {
 	 */
 	void exitParens(MyGrammarParser.ParensContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code MulDiv}
+	 * Enter a parse tree produced by the {@code Mul}
 	 * labeled alternative in {@link MyGrammarParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterMulDiv(MyGrammarParser.MulDivContext ctx);
+	void enterMul(MyGrammarParser.MulContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code MulDiv}
+	 * Exit a parse tree produced by the {@code Mul}
 	 * labeled alternative in {@link MyGrammarParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitMulDiv(MyGrammarParser.MulDivContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code AddSub}
-	 * labeled alternative in {@link MyGrammarParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterAddSub(MyGrammarParser.AddSubContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code AddSub}
-	 * labeled alternative in {@link MyGrammarParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitAddSub(MyGrammarParser.AddSubContext ctx);
+	void exitMul(MyGrammarParser.MulContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Pow}
 	 * labeled alternative in {@link MyGrammarParser#expr}.

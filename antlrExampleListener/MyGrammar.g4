@@ -6,11 +6,13 @@ myStart :  stat+ EOF;
 // rules
 stat:   expr;
 
-expr:   expr op=(MUL|DIV) expr #  MulDiv
-    |   expr op=(ADD|SUB) expr #  AddSub
+expr:   expr op=MUL expr #  Mul
+    |   expr op=DIV expr #  Div
+    |   expr op=ADD expr #  Add
+    |   expr op=SUB expr #  Sub
     |   expr op=POW expr #  Pow
     |   expr op=FACT  #  Fact
-    |   '(' expr ')'  # parens
+    |   PARANL expr PARANR  # parens //add '(' as token
     |   INT     # int
     ;
 
@@ -21,5 +23,7 @@ ADD:    '+';
 SUB:    '-';
 POW:    '^';
 FACT:   '!';
+PARANL: '(';
+PARANR: ')';
 INT     : [0-9]+ ;
 WS  : [ \t\r\n]+ -> skip;

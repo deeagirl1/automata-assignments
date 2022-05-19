@@ -54,8 +54,8 @@ class MyListener extends MyGrammarBaseListener
 		int left = numberStack.pop();
 		int result = 0;
 		if (ctx.op.getType() == MyGrammarParser.POW) {
-			result = (int) Math.pow(left,right);
-			System.err.println(left+ " to the power of "+ right);
+			result = (int) Math.pow(left, right);
+			System.err.println(left + " to the power of " + right);
 			numberStack.push(result);
 		}
 
@@ -63,37 +63,44 @@ class MyListener extends MyGrammarBaseListener
 	}
 
 	@Override
-	public void exitAddSub(MyGrammarParser.AddSubContext ctx) {
+	public void exitAdd(MyGrammarParser.AddContext ctx) {
 		int right = numberStack.pop();
 		int left = numberStack.pop();
-
-		int result = 0;
-		if (ctx.op.getType() == MyGrammarParser.ADD) {
-			result = left + right;
-			System.err.println("Added "+left+ " with "+right);
-		} else {
-			result = left - right;
-			System.err.println("Subtracted "+left+ " with "+right);
-		}
+		int result = left + right;
+		System.err.println("Added " + left + " with " + right);
 		numberStack.push(result);
-
 	}
 
 	@Override
-	public void exitMulDiv(MyGrammarParser.MulDivContext ctx) {
+	public void exitSub(MyGrammarParser.SubContext ctx) {
 		int right = numberStack.pop();
 		int left = numberStack.pop();
-
-		int result = 0;
-		if (ctx.op.getType() == MyGrammarParser.MUL) {
-			result = left * right;
-			System.err.println("Multiplied "+left+ " with "+right);
-		} else {
-			result = left / right;
-			System.err.println("Divided "+left+ " with "+right);
-		}
+		int result = left - right;
+		System.err.println("Subtracted " + left + " with " + right);
 		numberStack.push(result);
+	}
 
+	@Override
+	public void exitMul(MyGrammarParser.MulContext ctx) {
+		int right = numberStack.pop();
+		int left = numberStack.pop();
+		int result = left * right;
+		System.err.println("Multiplied " + left + " with " + right);
+		numberStack.push(result);
+	}
+
+	@Override
+	public void exitDiv(MyGrammarParser.DivContext ctx) {
+		int right = numberStack.pop();
+		int left = numberStack.pop();
+		if (right == 0 )
+		{
+			System.err.println("Cannot divide by 0!");
+			return;
+		}
+		int result = left / right;
+		System.err.println("Divided " + left + " with " + right);
+		numberStack.push(result);
 	}
 }
 
