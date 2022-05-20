@@ -95,8 +95,7 @@ class MyListener extends MyGrammarBaseListener
 		int left = numberStack.pop();
 		if (right == 0 )
 		{
-			System.err.println("Cannot divide by 0!");
-			return;
+			throw new ArithmeticException("Cannot divide by zero!");
 		}
 		int result = left / right;
 		System.err.println("Divided " + left + " with " + right);
