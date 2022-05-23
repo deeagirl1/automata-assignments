@@ -4,7 +4,16 @@ grammar MyGrammar;
 myStart :  stat+ EOF;
 
 // rules
-stat:   expr;
+stat:   expr     #otherExpr
+    |   value_type ID Is expr SEMICOLON  # assign
+    |   Print expr SEMICOLON # printExpr
+    ;
+
+value_type
+    : IntType
+    | BoolType
+    | StringType
+    ;
 
 expr:   expr op=MUL expr #  Mul
     |   expr op=DIV expr #  Div
@@ -13,11 +22,21 @@ expr:   expr op=MUL expr #  Mul
     |   expr op=POW expr #  Pow
     |   expr op=FACT  #  Fact
     |   PARANL expr PARANR  # parens //add '(' as token
-    |   INT     # int
+    |   ID    #ValueVariable
+    |   BOOLEAN       #ValueBoolean
+    |   INT        #ValueNumber
     ;
 
 // tokens
+IntType: 'int';
+BoolType: 'bool';
+StringType: 'string';
+Print: 'print';
 MUL:    '*';
+Is:      '=';
+COMMA: ',';
+SEMICOLON: ';';
+StringParen: '"';
 DIV:    '/';
 ADD:    '+';
 SUB:    '-';
@@ -26,4 +45,7 @@ FACT:   '!';
 PARANL: '(';
 PARANR: ')';
 INT     : [0-9]+ ;
+BOOLEAN: 'true'|'false';
+ID: [_A-Za-z][A-Za-z_!0-9.]* ;
+COMMENT : '//' .+? ('\n'|EOF) -> skip;
 WS  : [ \t\r\n]+ -> skip;
