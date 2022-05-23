@@ -8,6 +8,7 @@ import java.util.*;
 class MyListener extends MyGrammarBaseListener
 {
 	private final Stack<Integer> numberStack = new Stack<>();
+	private final Map<String,Integer> varibleMap = new HashMap<>();
 
 	@Override public void enterMyStart(MyGrammarParser.MyStartContext ctx)
 	{
@@ -25,15 +26,37 @@ class MyListener extends MyGrammarBaseListener
 	}
 
 	@Override
-	public void exitInt(MyGrammarParser.IntContext ctx) {
+	public void exitValueNumber(MyGrammarParser.ValueNumberContext ctx) {
 		int i = Integer.parseInt(ctx.INT().getText());
 		numberStack.push(i);
 	}
 
 	@Override
-	public void exitStat(MyGrammarParser.StatContext ctx) {
+	public void exitOtherExpr(MyGrammarParser.OtherExprContext ctx) {
 		int result = numberStack.pop();
 		System.err.println("Final result is: " + result);
+	}
+
+	@Override
+	public void exitAssign(MyGrammarParser.AssignContext ctx) {
+		String id = ctx.ID().getText();
+		int value = numberStack.pop();
+		varibleMap.put(id, value);
+		System.err.println("memory put: " + id + "=" + value);
+	}
+
+	@Override
+	public void exitPrintExpr(MyGrammarParser.PrintExprContext ctx) {
+		int value = numberStack.pop();
+		System.err.println("print "+ctx.expr().getText()+ " = "+ value);
+	}
+
+	@Override
+	public void exitValueVariable(MyGrammarParser.ValueVariableContext ctx) {
+		String id = ctx.ID().getText();
+		int number= varibleMap.get(id);
+		numberStack.push(number);
+		System.err.println("Added id to letterstack: "+id+" meaning adding "+number+" to numberstack");
 	}
 
 	@Override

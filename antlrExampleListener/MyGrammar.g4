@@ -5,7 +5,7 @@ myStart :  stat+ EOF;
 
 // rules
 stat:   expr     #otherExpr
-    |   value_type ID Is expr SEMICOLON  # assign
+    |   value_type ID Is expr SEMICOLON # assign
     |   Print expr SEMICOLON # printExpr
     ;
 
