@@ -1,5 +1,5 @@
-int b = 3 + 2 + 10;
-print b;
+ b = 3 + 2 + 10;
+ b;
 
-int c = 10;
+ c = 10;
 print b + c;
