@@ -1,42 +1,50 @@
 grammar MyGrammar;
 
 // rules
-myStart :  stat+ EOF;
+myStart :  statement + EOF;
 
-// rules
-stat:   expr     #otherExpr
-    |   value_type ID Is expr SEMICOLON # assign
-    |   Print expr SEMICOLON # printExpr
+statement:   expression     #otherExpr
+    |   variable_declaration # assign
+    |   Print op=(INT| BOOLEAN |ID)  # printExpr
     ;
 
-value_type
-    : IntType
-    | BoolType
-    | StringType
-    ;
+variable_declaration : int_variable_assignment
+                     | bool_variable_assignment
+                     | string_variable_assignment
+                     ;
 
-expr:   expr op=MUL expr #  Mul
-    |   expr op=DIV expr #  Div
-    |   expr op=ADD expr #  Add
-    |   expr op=SUB expr #  Sub
-    |   expr op=POW expr #  Pow
-    |   expr op=FACT  #  Fact
-    |   PARANL expr PARANR  # parens //add '(' as token
+string_variable_assignment : StringType ID  # stringDeclaration
+                           | StringType ID Equals STRING # stringAssign
+                           | ID Equals STRING  # stringAssignValue
+                           ;
+
+bool_variable_assignment : BoolType ID  # boolDeclaration
+                         | BoolType ID Equals BOOLEAN  # boolAssign
+                         | ID Equals BOOLEAN  # boolAssignValue
+                         ;
+
+int_variable_assignment :  IntType ID  # intDeclaration
+                         | IntType ID Equals expression  # intAssign
+                         | ID Equals expression  # intAssignValue
+                         ;
+
+expression:   expression op=MUL expression #  Mul
+    |   expression op=DIV expression #  Div
+    |   expression op=ADD expression #  Add
+    |   expression op=SUB expression #  Sub
+    |   expression op=POW expression #  Pow
+    |   expression op=FACT  #  Fact
+    |   PARANL expression PARANR  # parens
     |   ID    #ValueVariable
     |   BOOLEAN       #ValueBoolean
     |   INT        #ValueNumber
+    |   STRING     #ValueString
     ;
 
+
+
 // tokens
-IntType: 'int';
-BoolType: 'bool';
-StringType: 'string';
-Print: 'print';
 MUL:    '*';
-Is:      '=';
-COMMA: ',';
-SEMICOLON: ';';
-StringParen: '"';
 DIV:    '/';
 ADD:    '+';
 SUB:    '-';
@@ -44,8 +52,24 @@ POW:    '^';
 FACT:   '!';
 PARANL: '(';
 PARANR: ')';
-INT     : [0-9]+ ;
-BOOLEAN: 'true'|'false';
+
+Equals:      '=';
+
+IntType: 'int';
+BoolType: 'bool';
+StringType: 'string';
+
+DOT: '.';
+COMMA: ',';
+SEMICOLON: ';';
+StringParen: '"';
+
+Print: 'print';
+
+INT     : SUB?[0-9]+(DOT[0-9]+)? ;
+BOOLEAN: 'True'|'False';
 ID: [_A-Za-z][A-Za-z_!0-9.]* ;
+STRING : '"' ID '"';
+
 COMMENT : '//' .+? ('\n'|EOF) -> skip;
 WS  : [ \t\r\n]+ -> skip;

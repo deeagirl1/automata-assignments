@@ -1,5 +1,4 @@
-int b = 3 + 2 + 10;
-print b;
-
-int c = 10;
-print b + c;
+int c = 1 + 4 * 5
+int p = 10 + c
+print c
+print p

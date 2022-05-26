@@ -5,10 +5,17 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.*;
 
+import static java.lang.Boolean.parseBoolean;
+
 class MyListener extends MyGrammarBaseListener
 {
 	private final Stack<Integer> numberStack = new Stack<>();
-	private final Map<String,Integer> varibleMap = new HashMap<>();
+	private final Stack<String> StringStack = new Stack<>();
+	private final Stack<Boolean> BooleanStack = new Stack<>();
+
+	private final Map<String,Integer> integerMap = new HashMap<>();
+	private final Map<String,String> StringMap = new HashMap<>();
+	private final Map<String,Boolean> BooleanMap = new HashMap<>();
 
 	@Override public void enterMyStart(MyGrammarParser.MyStartContext ctx)
 	{
@@ -32,31 +39,149 @@ class MyListener extends MyGrammarBaseListener
 	}
 
 	@Override
+	public void enterValueBoolean(MyGrammarParser.ValueBooleanContext ctx) {
+		String i = (ctx.BOOLEAN().getText());
+		BooleanStack.push(parseBoolean(i));
+	}
+
+	@Override
 	public void exitOtherExpr(MyGrammarParser.OtherExprContext ctx) {
 		int result = numberStack.pop();
 		System.err.println("Final result is: " + result);
 	}
 
+//	@Override
+//	public void exitAssign(MyGrammarParser.AssignContext ctx) {
+//		String id = ctx.variable_declaration().ID().getText();
+//		String value = StringStack.pop();
+//		StringMap.put(id, value);
+//		System.err.println("memory put: " + id + "=" + value);
+//	}
+
 	@Override
-	public void exitAssign(MyGrammarParser.AssignContext ctx) {
+	public void exitStringDeclaration(MyGrammarParser.StringDeclarationContext ctx) {
 		String id = ctx.ID().getText();
-		int value = numberStack.pop();
-		varibleMap.put(id, value);
-		System.err.println("memory put: " + id + "=" + value);
+		String value = "";
+		StringMap.put(id, value);
+		System.err.println("memory put: " + id + " = " + value);
 	}
 
 	@Override
-	public void exitPrintExpr(MyGrammarParser.PrintExprContext ctx) {
+	public void exitStringAssign(MyGrammarParser.StringAssignContext ctx) {
+		String id = ctx.ID().getText();
+		String value = ctx.STRING().getText();
+		StringMap.put(id, removeFirstandLast(value));
+		System.err.println("memory put: " + id + " = " + removeFirstandLast(value));
+	}
+
+	@Override
+	public void exitStringAssignValue(MyGrammarParser.StringAssignValueContext ctx) {
+		String id = ctx.ID().getText();
+		String value = ctx.STRING().getText();
+		StringMap.put(id, removeFirstandLast(value));
+		System.err.println("memory put: " + id + "=" + removeFirstandLast(value));
+	}
+
+	@Override
+	public void exitIntDeclaration(MyGrammarParser.IntDeclarationContext ctx) {
+		String id = ctx.ID().getText();
+		int value = 0;
+		integerMap.put(id, value);
+		System.err.println("memory put: " + id + " = " + value);
+	}
+
+	@Override
+	public void exitIntAssign(MyGrammarParser.IntAssignContext ctx) {
+		String id = ctx.ID().getText();
 		int value = numberStack.pop();
-		System.err.println("print "+ctx.expr().getText()+ " = "+ value);
+		integerMap.put(id, value);
+		System.err.println("memory put: " + id + " = " + value);
+	}
+
+	@Override
+	public void exitIntAssignValue(MyGrammarParser.IntAssignValueContext ctx) {
+		String id = ctx.ID().getText();
+		int value = numberStack.pop();
+		integerMap.put(id, value);
+		System.err.println("memory put: " + id + " = " + value);
+	}
+
+	@Override
+	public void exitBoolDeclaration(MyGrammarParser.BoolDeclarationContext ctx) {
+		String id = ctx.ID().getText();
+		boolean value = false;
+		BooleanMap.put(id, value);
+		System.err.println("memory put: " + id + " = " + value);
+	}
+
+	@Override
+	public void exitBoolAssign(MyGrammarParser.BoolAssignContext ctx) {
+		String id = ctx.ID().getText();
+		boolean value = parseBoolean(ctx.BOOLEAN().getText());
+		BooleanMap.put(id, value);
+		System.err.println("memory put: " + id + " = " + value);
+	}
+
+	@Override
+	public void exitBoolAssignValue(MyGrammarParser.BoolAssignValueContext ctx) {
+		String id = ctx.ID().getText();
+		boolean value = parseBoolean(ctx.BOOLEAN().getText());
+		BooleanMap.put(id, value);
+		System.err.println("memory put: " + id + " = " + value);
+	}
+
+
+	@Override
+	public void exitPrintExpr(MyGrammarParser.PrintExprContext ctx) {
+		if (ctx.op.getType() == MyGrammarParser.ID) {
+			String id = ctx.ID().getText();
+			if(StringMap.get(id) != null){
+				String value = StringMap.get(id);
+				StringMap.put(id, value);
+				System.err.println("print "+ id + " = " +value);
+			} else if (integerMap.get(id) != null){
+				int value = integerMap.get(id);
+				integerMap.put(id, value);
+				System.err.println("print "+ id + " = " +value);
+			}else {
+				boolean value = BooleanMap.get(id);
+				BooleanMap.put(id, value);
+				System.err.println("print "+ id + " = " +value);
+			}
+		}
+		if(ctx.op.getType() == MyGrammarParser.INT) {
+			String id = ctx.INT().getText();
+			System.err.println("print "+ id);
+		}
+		if(ctx.op.getType() == MyGrammarParser.BOOLEAN) {
+			String id = ctx.BOOLEAN().getText();
+			System.err.println("print "+ id);
+		}
 	}
 
 	@Override
 	public void exitValueVariable(MyGrammarParser.ValueVariableContext ctx) {
 		String id = ctx.ID().getText();
-		int number= varibleMap.get(id);
-		numberStack.push(number);
-		System.err.println("Added id to letterstack: "+id+" meaning adding "+number+" to numberstack");
+		if(integerMap.get(id) != null){
+			int number=integerMap.get(id);
+			numberStack.push(number);
+			System.err.println("Added id to letterstack: "+id+" meaning adding "+number+" to numberstack");
+		}
+		else if(StringMap.get(id) != null){
+			String str=StringMap.get(id);
+			StringStack.push(str);
+			System.err.println("Added id to letterstack: "+id+" meaning adding "+str+" to numberstack");
+		}else {
+			boolean aBoolean=BooleanMap.get(id);
+			BooleanStack.push(aBoolean);
+			System.err.println("Added id to letterstack: "+id+" meaning adding "+aBoolean+" to numberstack");
+		}
+	}
+
+	@Override
+	public void exitValueString(MyGrammarParser.ValueStringContext ctx) {
+		String id = ctx.STRING().getText();
+		StringStack.push(id);
 	}
 
 	@Override
@@ -81,8 +206,6 @@ class MyListener extends MyGrammarBaseListener
 			System.err.println(left + " to the power of " + right);
 			numberStack.push(result);
 		}
-
-
 	}
 
 	@Override
@@ -124,6 +247,13 @@ class MyListener extends MyGrammarBaseListener
 		System.err.println("Divided " + left + " with " + right);
 		numberStack.push(result);
 	}
+
+	private String removeFirstandLast(String str) {
+		StringBuilder sb = new StringBuilder(str);
+		sb.deleteCharAt(str.length() - 1);
+		sb.deleteCharAt(0);
+		return sb.toString();
+	}
 }
 
 public class Main
@@ -144,121 +274,3 @@ public class Main
 		ParseTreeWalker.DEFAULT.walk(m, tree);
 	}
 }
-
-//import gen.MyGrammarBaseListener;
-//import gen.MyGrammarParser;
-//import org.antlr.v4.runtime.*;
-//import org.antlr.v4.runtime.tree.*;
-//import java.util.*;
-//
-//class MyListener extends MyGrammarBaseListener
-//{
-//	private Stack<Integer> numberStack = new Stack<Integer>();
-//
-//	@Override public void enterMyStart(MyGrammarParser.MyStartContext ctx)
-//	{
-//		System.err.println("enterMyStart()");
-//	}
-//
-//	@Override public void exitMyStart(MyGrammarParser.MyStartContext ctx)
-//	{
-//		System.err.println("exitMyStart()");
-//	}
-//
-//	@Override public void visitTerminal(TerminalNode node)
-//	{
-//		System.err.println("terminal-node: '" + node.getText() + "'");
-//	}
-//
-//	@Override
-//    public void exitAddSub(MyGrammarParser.AddSubContext ctx) {
-//		int right = numberStack.pop();
-//		int left = numberStack.pop();
-//
-//        int result;
-//        if (ctx.op.getType() == MyGrammarParser.ADD) {
-//            result = left + right;
-//			System.err.println("-------------------------------------------------");
-//			System.err.println("added "+left+ " with "+right + " = " + result);
-//		} else {
-//            result = left - right;
-//			System.err.println("-------------------------------------------------");
-//			System.err.println("subtracted "+left+ " with "+right + " = " + result);
-//		}
-//		System.err.println("-------------------------------------------------");
-//		numberStack.push(result);
-//
-//    }
-//
-//	@Override
-//    public void exitMulDiv(MyGrammarParser.MulDivContext ctx) {
-//        int right = numberStack.pop();
-//		int left = numberStack.pop();
-//
-//        int result;
-//        if (ctx.op.getType() == MyGrammarParser.MUL) {
-//            result = left * right;
-//			System.err.println("-------------------------------------------------");
-//			System.err.println("multiplied "+left+ " with "+right + " = " + result);
-//		} else {
-//            result = left / right;
-//			System.err.println("-------------------------------------------------");
-//			System.err.println("divided "+left+ " by "+right + " = " + result);
-//		}
-//		System.err.println("-------------------------------------------------");
-//		numberStack.push(result);
-//    }
-//
-//
-//	@Override
-//	public void exitFact(MyGrammarParser.FactContext ctx) {
-//		int number = numberStack.pop();
-//		int i,fact=1;
-//		for(i=1;i<=number;i++){
-//			fact=fact*i;
-//		}
-//		System.err.println("-------------------------------------------------");
-//		System.err.println("Factorial of "+number+" is: "+fact);
-//		System.err.println("-------------------------------------------------");
-//        numberStack.push(fact);
-//	}
-//
-//	@Override
-//	public void exitPow(MyGrammarParser.PowContext ctx) {
-//		int right = numberStack.pop();
-//		int left = numberStack.pop();
-//		int result = 0;
-//		if (ctx.op.getType() == MyGrammarParser.POW) {
-//			result = (int) Math.pow(left,right);
-//			System.err.println(left+ " to the power of "+ right);
-//			numberStack.push(result);
-//		}
-//	}
-//
-//	@Override
-//	public void exitInt(MyGrammarParser.IntContext ctx) {
-//		String integ=ctx.INT().getText();
-//		numberStack.push(Integer.valueOf(integ));
-//		System.err.println("Added integ to numberStack: "+integ);
-//	}
-//
-//
-//}
-//
-//public class Main
-//{
-//    public static <MyGrammarLexer> void main(String[] args) throws Exception {
-//		CharStream input = CharStreams.fromStream(System.in);
-//		gen.MyGrammarLexer lexer = new gen.MyGrammarLexer(input);
-//
-//		CommonTokenStream tokens = new CommonTokenStream(lexer);
-//
-//
-//		MyGrammarParser parser = new MyGrammarParser(tokens);
-//
-//		ParseTree tree = parser.myStart();
-//
-//		MyListener m = new MyListener();
-//		ParseTreeWalker.DEFAULT.walk(m, tree);
-//    }
-//}
