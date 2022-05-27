@@ -1,4 +1,4 @@
-int c = 1 + 4 * 5
-int p = 10 + c
-print c
-print p
+int m = 9 + 1 + 10
+int c
+c = 4 + m
+print c + 4

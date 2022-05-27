@@ -4,9 +4,10 @@ grammar MyGrammar;
 myStart :  statement + EOF;
 
 statement:   expression     #otherExpr
-    |   variable_declaration # assign
-    |   Print op=(INT| BOOLEAN |ID)  # printExpr
-    ;
+         |   variable_declaration # assign
+         |   Print op=(INT| BOOLEAN |ID |STRING)  # printVar
+         |   Print mathExpression  # printExpr
+         ;
 
 variable_declaration : int_variable_assignment
                      | bool_variable_assignment
@@ -24,23 +25,25 @@ bool_variable_assignment : BoolType ID  # boolDeclaration
                          ;
 
 int_variable_assignment :  IntType ID  # intDeclaration
-                         | IntType ID Equals expression  # intAssign
-                         | ID Equals expression  # intAssignValue
+                         | IntType ID Equals mathExpression  # intAssign
+                         | ID Equals mathExpression  # intAssignValue
                          ;
 
-expression:   expression op=MUL expression #  Mul
-    |   expression op=DIV expression #  Div
-    |   expression op=ADD expression #  Add
-    |   expression op=SUB expression #  Sub
-    |   expression op=POW expression #  Pow
-    |   expression op=FACT  #  Fact
-    |   PARANL expression PARANR  # parens
-    |   ID    #ValueVariable
-    |   BOOLEAN       #ValueBoolean
-    |   INT        #ValueNumber
-    |   STRING     #ValueString
-    ;
+expression:   mathExpression #MathExp
+          |   BOOLEAN       #ValueBoolean
+          |   STRING     #ValueString
+          ;
 
+mathExpression:  mathExpression op=MUL mathExpression #  Mul
+             |   mathExpression op=DIV mathExpression #  Div
+             |   mathExpression op=ADD mathExpression #  Add
+             |   mathExpression op=SUB mathExpression #  Sub
+             |   mathExpression op=POW mathExpression #  Pow
+             |   mathExpression op=FACT  #  Fact
+             |   PARANL mathExpression PARANR  # parens
+             |   INT #ValueNumber
+             |   ID    #ValueVariable
+             ;
 
 
 // tokens

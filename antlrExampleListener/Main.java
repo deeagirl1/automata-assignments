@@ -41,7 +41,7 @@ class MyListener extends MyGrammarBaseListener
 	@Override
 	public void enterValueBoolean(MyGrammarParser.ValueBooleanContext ctx) {
 		String i = (ctx.BOOLEAN().getText());
-		BooleanStack.push(parseBoolean(i));
+		BooleanStack.push(parseBoolean(i.toLowerCase()));
 	}
 
 	@Override
@@ -50,13 +50,6 @@ class MyListener extends MyGrammarBaseListener
 		System.err.println("Final result is: " + result);
 	}
 
-//	@Override
-//	public void exitAssign(MyGrammarParser.AssignContext ctx) {
-//		String id = ctx.variable_declaration().ID().getText();
-//		String value = StringStack.pop();
-//		StringMap.put(id, value);
-//		System.err.println("memory put: " + id + "=" + value);
-//	}
 
 	@Override
 	public void exitStringDeclaration(MyGrammarParser.StringDeclarationContext ctx) {
@@ -78,8 +71,8 @@ class MyListener extends MyGrammarBaseListener
 	public void exitStringAssignValue(MyGrammarParser.StringAssignValueContext ctx) {
 		String id = ctx.ID().getText();
 		String value = ctx.STRING().getText();
-		StringMap.put(id, removeFirstandLast(value));
-		System.err.println("memory put: " + id + "=" + removeFirstandLast(value));
+		StringMap.replace(id, removeFirstandLast(value));
+		System.err.println("memory put: " + id + " = " + removeFirstandLast(value));
 	}
 
 	@Override
@@ -101,9 +94,21 @@ class MyListener extends MyGrammarBaseListener
 	@Override
 	public void exitIntAssignValue(MyGrammarParser.IntAssignValueContext ctx) {
 		String id = ctx.ID().getText();
-		int value = numberStack.pop();
-		integerMap.put(id, value);
-		System.err.println("memory put: " + id + " = " + value);
+		if(integerMap.get(id) != null){
+			int value = numberStack.pop();
+			integerMap.put(id, value);
+			System.err.println("memory put: " + id + " = " + value);
+		}
+		if(StringMap.get(id) != null){
+			String value = StringStack.pop();
+			StringMap.replace(id, value);
+			System.err.println("memory put: " + id + " = " + value);
+		}
+		if(BooleanMap.get(id) != null){
+			boolean value = BooleanStack.pop();
+			BooleanMap.put(id, value);
+			System.err.println("memory put: " + id + " = " + value);
+		}
 	}
 
 	@Override
@@ -117,7 +122,7 @@ class MyListener extends MyGrammarBaseListener
 	@Override
 	public void exitBoolAssign(MyGrammarParser.BoolAssignContext ctx) {
 		String id = ctx.ID().getText();
-		boolean value = parseBoolean(ctx.BOOLEAN().getText());
+		boolean value = parseBoolean(ctx.BOOLEAN().getText().toLowerCase());
 		BooleanMap.put(id, value);
 		System.err.println("memory put: " + id + " = " + value);
 	}
@@ -125,29 +130,35 @@ class MyListener extends MyGrammarBaseListener
 	@Override
 	public void exitBoolAssignValue(MyGrammarParser.BoolAssignValueContext ctx) {
 		String id = ctx.ID().getText();
-		boolean value = parseBoolean(ctx.BOOLEAN().getText());
+		boolean value = parseBoolean(ctx.BOOLEAN().getText().toLowerCase());
 		BooleanMap.put(id, value);
 		System.err.println("memory put: " + id + " = " + value);
 	}
 
-
 	@Override
-	public void exitPrintExpr(MyGrammarParser.PrintExprContext ctx) {
+	public void exitPrintVar(MyGrammarParser.PrintVarContext ctx) {
 		if (ctx.op.getType() == MyGrammarParser.ID) {
 			String id = ctx.ID().getText();
-			if(StringMap.get(id) != null){
-				String value = StringMap.get(id);
-				StringMap.put(id, value);
-				System.err.println("print "+ id + " = " +value);
-			} else if (integerMap.get(id) != null){
-				int value = integerMap.get(id);
-				integerMap.put(id, value);
-				System.err.println("print "+ id + " = " +value);
-			}else {
+
+			if(BooleanMap.get(id) != null){
 				boolean value = BooleanMap.get(id);
 				BooleanMap.put(id, value);
 				System.err.println("print "+ id + " = " +value);
 			}
+			else if(StringMap.get(id) != null){
+				String value = StringMap.get(id);
+				StringMap.put(id, value);
+				System.err.println("print "+ id + " = " +value);
+			}
+			else if (integerMap.get(id) != null){
+				int value = integerMap.get(id);
+				integerMap.put(id, value);
+				System.err.println("print "+ id + " = " +value);
+			}
+		}
+		if(ctx.op.getType() == MyGrammarParser.STRING){
+			String id = ctx.STRING().getText();
+			System.err.println("print "+ removeFirstandLast(id));
 		}
 		if(ctx.op.getType() == MyGrammarParser.INT) {
 			String id = ctx.INT().getText();
@@ -160,6 +171,12 @@ class MyListener extends MyGrammarBaseListener
 	}
 
 	@Override
+	public void exitPrintExpr(MyGrammarParser.PrintExprContext ctx) {
+		int value= numberStack.pop();
+		System.err.println("printed "+ctx.mathExpression().getText()+" = "+value);
+	}
+
+	@Override
 	public void exitValueVariable(MyGrammarParser.ValueVariableContext ctx) {
 		String id = ctx.ID().getText();
 		if(integerMap.get(id) != null){
@@ -167,21 +184,12 @@ class MyListener extends MyGrammarBaseListener
 			numberStack.push(number);
 			System.err.println("Added id to letterstack: "+id+" meaning adding "+number+" to numberstack");
 		}
-		else if(StringMap.get(id) != null){
-			String str=StringMap.get(id);
-			StringStack.push(str);
-			System.err.println("Added id to letterstack: "+id+" meaning adding "+str+" to numberstack");
-		}else {
-			boolean aBoolean=BooleanMap.get(id);
-			BooleanStack.push(aBoolean);
-			System.err.println("Added id to letterstack: "+id+" meaning adding "+aBoolean+" to numberstack");
-		}
 	}
 
 	@Override
 	public void exitValueString(MyGrammarParser.ValueStringContext ctx) {
 		String id = ctx.STRING().getText();
-		StringStack.push(id);
+		StringStack.push(removeFirstandLast(id));
 	}
 
 	@Override
