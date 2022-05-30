@@ -64,14 +64,13 @@ StringType: 'string';
 DOT: '.';
 COMMA: ',';
 SEMICOLON: ';';
-StringParen: '"';
 
 Print: 'print';
 
 INT     : SUB?[0-9]+(DOT[0-9]+)? ;
 BOOLEAN: 'True'|'False';
 ID: [_A-Za-z][A-Za-z_!0-9.]* ;
-STRING : '"' ID '"';
+STRING : '"' ~('\r' | '\n' | '"')* '"';
 
 COMMENT : '//' .+? ('\n'|EOF) -> skip;
 WS  : [ \t\r\n]+ -> skip;

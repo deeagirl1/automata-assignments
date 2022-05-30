@@ -19,8 +19,7 @@ public class MyGrammarParser extends Parser {
 	public static final int
 		Equals=1, MUL=2, DIV=3, ADD=4, SUB=5, POW=6, FACT=7, PARANL=8, PARANR=9, 
 		IntType=10, BoolType=11, StringType=12, DOT=13, COMMA=14, SEMICOLON=15, 
-		StringParen=16, Print=17, INT=18, BOOLEAN=19, ID=20, STRING=21, COMMENT=22, 
-		WS=23;
+		Print=16, INT=17, BOOLEAN=18, ID=19, STRING=20, COMMENT=21, WS=22;
 	public static final int
 		RULE_myStart = 0, RULE_statement = 1, RULE_print_func = 2, RULE_variable = 3, 
 		RULE_string_variable = 4, RULE_bool_variable = 5, RULE_int_variable = 6, 
@@ -36,7 +35,7 @@ public class MyGrammarParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'='", "'*'", "'/'", "'+'", "'-'", "'^'", "'!'", "'('", "')'", 
-			"'int'", "'bool'", "'string'", "'.'", "','", "';'", "'\"'", "'print'"
+			"'int'", "'bool'", "'string'", "'.'", "','", "';'", "'print'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -44,8 +43,7 @@ public class MyGrammarParser extends Parser {
 		return new String[] {
 			null, "Equals", "MUL", "DIV", "ADD", "SUB", "POW", "FACT", "PARANL", 
 			"PARANR", "IntType", "BoolType", "StringType", "DOT", "COMMA", "SEMICOLON", 
-			"StringParen", "Print", "INT", "BOOLEAN", "ID", "STRING", "COMMENT", 
-			"WS"
+			"Print", "INT", "BOOLEAN", "ID", "STRING", "COMMENT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -1154,7 +1152,7 @@ public class MyGrammarParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u0017o\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u0016o\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0001\u0000\u0004\u0000\u0014\b\u0000\u000b\u0000\f\u0000\u0015"+
@@ -1171,7 +1169,7 @@ public class MyGrammarParser extends Parser {
 		"\b\u0003\bW\b\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001"+
 		"\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001"+
 		"\b\u0001\b\u0005\bj\b\b\n\b\f\bm\t\b\u0001\b\u0000\u0001\u0010\t\u0000"+
-		"\u0002\u0004\u0006\b\n\f\u000e\u0010\u0000\u0001\u0001\u0000\u0012\u0015"+
+		"\u0002\u0004\u0006\b\n\f\u000e\u0010\u0000\u0001\u0001\u0000\u0011\u0014"+
 		"{\u0000\u0013\u0001\u0000\u0000\u0000\u0002\u001c\u0001\u0000\u0000\u0000"+
 		"\u0004\"\u0001\u0000\u0000\u0000\u0006\'\u0001\u0000\u0000\u0000\b2\u0001"+
 		"\u0000\u0000\u0000\n=\u0001\u0000\u0000\u0000\fH\u0001\u0000\u0000\u0000"+
@@ -1183,31 +1181,31 @@ public class MyGrammarParser extends Parser {
 		"\u0003\u000e\u0007\u0000\u001a\u001d\u0003\u0006\u0003\u0000\u001b\u001d"+
 		"\u0003\u0004\u0002\u0000\u001c\u0019\u0001\u0000\u0000\u0000\u001c\u001a"+
 		"\u0001\u0000\u0000\u0000\u001c\u001b\u0001\u0000\u0000\u0000\u001d\u0003"+
-		"\u0001\u0000\u0000\u0000\u001e\u001f\u0005\u0011\u0000\u0000\u001f#\u0007"+
-		"\u0000\u0000\u0000 !\u0005\u0011\u0000\u0000!#\u0003\u0010\b\u0000\"\u001e"+
+		"\u0001\u0000\u0000\u0000\u001e\u001f\u0005\u0010\u0000\u0000\u001f#\u0007"+
+		"\u0000\u0000\u0000 !\u0005\u0010\u0000\u0000!#\u0003\u0010\b\u0000\"\u001e"+
 		"\u0001\u0000\u0000\u0000\" \u0001\u0000\u0000\u0000#\u0005\u0001\u0000"+
 		"\u0000\u0000$(\u0003\f\u0006\u0000%(\u0003\n\u0005\u0000&(\u0003\b\u0004"+
 		"\u0000\'$\u0001\u0000\u0000\u0000\'%\u0001\u0000\u0000\u0000\'&\u0001"+
 		"\u0000\u0000\u0000(\u0007\u0001\u0000\u0000\u0000)*\u0005\f\u0000\u0000"+
-		"*-\u0005\u0014\u0000\u0000+,\u0005\u0001\u0000\u0000,.\u0005\u0015\u0000"+
+		"*-\u0005\u0013\u0000\u0000+,\u0005\u0001\u0000\u0000,.\u0005\u0014\u0000"+
 		"\u0000-+\u0001\u0000\u0000\u0000-.\u0001\u0000\u0000\u0000.3\u0001\u0000"+
-		"\u0000\u0000/0\u0005\u0014\u0000\u000001\u0005\u0001\u0000\u000013\u0005"+
-		"\u0015\u0000\u00002)\u0001\u0000\u0000\u00002/\u0001\u0000\u0000\u0000"+
-		"3\t\u0001\u0000\u0000\u000045\u0005\u000b\u0000\u000058\u0005\u0014\u0000"+
-		"\u000067\u0005\u0001\u0000\u000079\u0005\u0013\u0000\u000086\u0001\u0000"+
+		"\u0000\u0000/0\u0005\u0013\u0000\u000001\u0005\u0001\u0000\u000013\u0005"+
+		"\u0014\u0000\u00002)\u0001\u0000\u0000\u00002/\u0001\u0000\u0000\u0000"+
+		"3\t\u0001\u0000\u0000\u000045\u0005\u000b\u0000\u000058\u0005\u0013\u0000"+
+		"\u000067\u0005\u0001\u0000\u000079\u0005\u0012\u0000\u000086\u0001\u0000"+
 		"\u0000\u000089\u0001\u0000\u0000\u00009>\u0001\u0000\u0000\u0000:;\u0005"+
-		"\u0014\u0000\u0000;<\u0005\u0001\u0000\u0000<>\u0005\u0013\u0000\u0000"+
+		"\u0013\u0000\u0000;<\u0005\u0001\u0000\u0000<>\u0005\u0012\u0000\u0000"+
 		"=4\u0001\u0000\u0000\u0000=:\u0001\u0000\u0000\u0000>\u000b\u0001\u0000"+
-		"\u0000\u0000?@\u0005\n\u0000\u0000@C\u0005\u0014\u0000\u0000AB\u0005\u0001"+
+		"\u0000\u0000?@\u0005\n\u0000\u0000@C\u0005\u0013\u0000\u0000AB\u0005\u0001"+
 		"\u0000\u0000BD\u0003\u0010\b\u0000CA\u0001\u0000\u0000\u0000CD\u0001\u0000"+
-		"\u0000\u0000DI\u0001\u0000\u0000\u0000EF\u0005\u0014\u0000\u0000FG\u0005"+
+		"\u0000\u0000DI\u0001\u0000\u0000\u0000EF\u0005\u0013\u0000\u0000FG\u0005"+
 		"\u0001\u0000\u0000GI\u0003\u0010\b\u0000H?\u0001\u0000\u0000\u0000HE\u0001"+
 		"\u0000\u0000\u0000I\r\u0001\u0000\u0000\u0000JN\u0003\u0010\b\u0000KN"+
-		"\u0005\u0013\u0000\u0000LN\u0005\u0015\u0000\u0000MJ\u0001\u0000\u0000"+
+		"\u0005\u0012\u0000\u0000LN\u0005\u0014\u0000\u0000MJ\u0001\u0000\u0000"+
 		"\u0000MK\u0001\u0000\u0000\u0000ML\u0001\u0000\u0000\u0000N\u000f\u0001"+
 		"\u0000\u0000\u0000OP\u0006\b\uffff\uffff\u0000PQ\u0005\b\u0000\u0000Q"+
 		"R\u0003\u0010\b\u0000RS\u0005\t\u0000\u0000SW\u0001\u0000\u0000\u0000"+
-		"TW\u0005\u0012\u0000\u0000UW\u0005\u0014\u0000\u0000VO\u0001\u0000\u0000"+
+		"TW\u0005\u0011\u0000\u0000UW\u0005\u0013\u0000\u0000VO\u0001\u0000\u0000"+
 		"\u0000VT\u0001\u0000\u0000\u0000VU\u0001\u0000\u0000\u0000Wk\u0001\u0000"+
 		"\u0000\u0000XY\n\t\u0000\u0000YZ\u0005\u0002\u0000\u0000Zj\u0003\u0010"+
 		"\b\n[\\\n\b\u0000\u0000\\]\u0005\u0003\u0000\u0000]j\u0003\u0010\b\t^"+
