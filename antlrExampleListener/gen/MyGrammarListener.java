@@ -42,144 +42,120 @@ public interface MyGrammarListener extends ParseTreeListener {
 	 */
 	void exitAssign(MyGrammarParser.AssignContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code printVar}
+	 * Enter a parse tree produced by the {@code print}
 	 * labeled alternative in {@link MyGrammarParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrint(MyGrammarParser.PrintContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code print}
+	 * labeled alternative in {@link MyGrammarParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrint(MyGrammarParser.PrintContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code printVar}
+	 * labeled alternative in {@link MyGrammarParser#print_func}.
 	 * @param ctx the parse tree
 	 */
 	void enterPrintVar(MyGrammarParser.PrintVarContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code printVar}
-	 * labeled alternative in {@link MyGrammarParser#statement}.
+	 * labeled alternative in {@link MyGrammarParser#print_func}.
 	 * @param ctx the parse tree
 	 */
 	void exitPrintVar(MyGrammarParser.PrintVarContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code printExpr}
-	 * labeled alternative in {@link MyGrammarParser#statement}.
+	 * labeled alternative in {@link MyGrammarParser#print_func}.
 	 * @param ctx the parse tree
 	 */
 	void enterPrintExpr(MyGrammarParser.PrintExprContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code printExpr}
-	 * labeled alternative in {@link MyGrammarParser#statement}.
+	 * labeled alternative in {@link MyGrammarParser#print_func}.
 	 * @param ctx the parse tree
 	 */
 	void exitPrintExpr(MyGrammarParser.PrintExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MyGrammarParser#variable_declaration}.
+	 * Enter a parse tree produced by {@link MyGrammarParser#variable}.
 	 * @param ctx the parse tree
 	 */
-	void enterVariable_declaration(MyGrammarParser.Variable_declarationContext ctx);
+	void enterVariable(MyGrammarParser.VariableContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MyGrammarParser#variable_declaration}.
+	 * Exit a parse tree produced by {@link MyGrammarParser#variable}.
 	 * @param ctx the parse tree
 	 */
-	void exitVariable_declaration(MyGrammarParser.Variable_declarationContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code stringDeclaration}
-	 * labeled alternative in {@link MyGrammarParser#string_variable_assignment}.
-	 * @param ctx the parse tree
-	 */
-	void enterStringDeclaration(MyGrammarParser.StringDeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code stringDeclaration}
-	 * labeled alternative in {@link MyGrammarParser#string_variable_assignment}.
-	 * @param ctx the parse tree
-	 */
-	void exitStringDeclaration(MyGrammarParser.StringDeclarationContext ctx);
+	void exitVariable(MyGrammarParser.VariableContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code stringAssign}
-	 * labeled alternative in {@link MyGrammarParser#string_variable_assignment}.
+	 * labeled alternative in {@link MyGrammarParser#string_variable}.
 	 * @param ctx the parse tree
 	 */
 	void enterStringAssign(MyGrammarParser.StringAssignContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code stringAssign}
-	 * labeled alternative in {@link MyGrammarParser#string_variable_assignment}.
+	 * labeled alternative in {@link MyGrammarParser#string_variable}.
 	 * @param ctx the parse tree
 	 */
 	void exitStringAssign(MyGrammarParser.StringAssignContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code stringAssignValue}
-	 * labeled alternative in {@link MyGrammarParser#string_variable_assignment}.
+	 * labeled alternative in {@link MyGrammarParser#string_variable}.
 	 * @param ctx the parse tree
 	 */
 	void enterStringAssignValue(MyGrammarParser.StringAssignValueContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code stringAssignValue}
-	 * labeled alternative in {@link MyGrammarParser#string_variable_assignment}.
+	 * labeled alternative in {@link MyGrammarParser#string_variable}.
 	 * @param ctx the parse tree
 	 */
 	void exitStringAssignValue(MyGrammarParser.StringAssignValueContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code boolDeclaration}
-	 * labeled alternative in {@link MyGrammarParser#bool_variable_assignment}.
-	 * @param ctx the parse tree
-	 */
-	void enterBoolDeclaration(MyGrammarParser.BoolDeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code boolDeclaration}
-	 * labeled alternative in {@link MyGrammarParser#bool_variable_assignment}.
-	 * @param ctx the parse tree
-	 */
-	void exitBoolDeclaration(MyGrammarParser.BoolDeclarationContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code boolAssign}
-	 * labeled alternative in {@link MyGrammarParser#bool_variable_assignment}.
+	 * labeled alternative in {@link MyGrammarParser#bool_variable}.
 	 * @param ctx the parse tree
 	 */
 	void enterBoolAssign(MyGrammarParser.BoolAssignContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code boolAssign}
-	 * labeled alternative in {@link MyGrammarParser#bool_variable_assignment}.
+	 * labeled alternative in {@link MyGrammarParser#bool_variable}.
 	 * @param ctx the parse tree
 	 */
 	void exitBoolAssign(MyGrammarParser.BoolAssignContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code boolAssignValue}
-	 * labeled alternative in {@link MyGrammarParser#bool_variable_assignment}.
+	 * labeled alternative in {@link MyGrammarParser#bool_variable}.
 	 * @param ctx the parse tree
 	 */
 	void enterBoolAssignValue(MyGrammarParser.BoolAssignValueContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code boolAssignValue}
-	 * labeled alternative in {@link MyGrammarParser#bool_variable_assignment}.
+	 * labeled alternative in {@link MyGrammarParser#bool_variable}.
 	 * @param ctx the parse tree
 	 */
 	void exitBoolAssignValue(MyGrammarParser.BoolAssignValueContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code intDeclaration}
-	 * labeled alternative in {@link MyGrammarParser#int_variable_assignment}.
-	 * @param ctx the parse tree
-	 */
-	void enterIntDeclaration(MyGrammarParser.IntDeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code intDeclaration}
-	 * labeled alternative in {@link MyGrammarParser#int_variable_assignment}.
-	 * @param ctx the parse tree
-	 */
-	void exitIntDeclaration(MyGrammarParser.IntDeclarationContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code intAssign}
-	 * labeled alternative in {@link MyGrammarParser#int_variable_assignment}.
+	 * labeled alternative in {@link MyGrammarParser#int_variable}.
 	 * @param ctx the parse tree
 	 */
 	void enterIntAssign(MyGrammarParser.IntAssignContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code intAssign}
-	 * labeled alternative in {@link MyGrammarParser#int_variable_assignment}.
+	 * labeled alternative in {@link MyGrammarParser#int_variable}.
 	 * @param ctx the parse tree
 	 */
 	void exitIntAssign(MyGrammarParser.IntAssignContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code intAssignValue}
-	 * labeled alternative in {@link MyGrammarParser#int_variable_assignment}.
+	 * labeled alternative in {@link MyGrammarParser#int_variable}.
 	 * @param ctx the parse tree
 	 */
 	void enterIntAssignValue(MyGrammarParser.IntAssignValueContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code intAssignValue}
-	 * labeled alternative in {@link MyGrammarParser#int_variable_assignment}.
+	 * labeled alternative in {@link MyGrammarParser#int_variable}.
 	 * @param ctx the parse tree
 	 */
 	void exitIntAssignValue(MyGrammarParser.IntAssignValueContext ctx);

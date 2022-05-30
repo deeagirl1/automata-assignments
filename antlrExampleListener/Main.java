@@ -1,6 +1,7 @@
 import gen.MyGrammarBaseListener;
 import gen.MyGrammarLexer;
 import gen.MyGrammarParser;
+
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.*;
@@ -52,19 +53,17 @@ class MyListener extends MyGrammarBaseListener
 
 
 	@Override
-	public void exitStringDeclaration(MyGrammarParser.StringDeclarationContext ctx) {
-		String id = ctx.ID().getText();
-		String value = "";
-		StringMap.put(id, value);
-		System.err.println("memory put: " + id + " = " + value);
-	}
-
-	@Override
 	public void exitStringAssign(MyGrammarParser.StringAssignContext ctx) {
 		String id = ctx.ID().getText();
-		String value = ctx.STRING().getText();
-		StringMap.put(id, removeFirstandLast(value));
-		System.err.println("memory put: " + id + " = " + removeFirstandLast(value));
+		if(ctx.STRING() == null){
+			String value = "";
+			StringMap.put(id, value);
+			System.err.println("memory put: " + id + " = " + value);
+		}else {
+			String value = ctx.STRING().getText();
+			StringMap.put(id, removeFirstandLast(value));
+			System.err.println("memory put: " + id + " = " + removeFirstandLast(value));
+		}
 	}
 
 	@Override
@@ -75,20 +74,19 @@ class MyListener extends MyGrammarBaseListener
 		System.err.println("memory put: " + id + " = " + removeFirstandLast(value));
 	}
 
-	@Override
-	public void exitIntDeclaration(MyGrammarParser.IntDeclarationContext ctx) {
-		String id = ctx.ID().getText();
-		int value = 0;
-		integerMap.put(id, value);
-		System.err.println("memory put: " + id + " = " + value);
-	}
 
 	@Override
 	public void exitIntAssign(MyGrammarParser.IntAssignContext ctx) {
 		String id = ctx.ID().getText();
-		int value = numberStack.pop();
-		integerMap.put(id, value);
-		System.err.println("memory put: " + id + " = " + value);
+		if(ctx.mathExpression() == null){
+			int value = 0;
+			integerMap.put(id, value);
+			System.err.println("memory put: " + id + " = " + value);
+		}else {
+			int value = numberStack.pop();
+			integerMap.put(id, value);
+			System.err.println("memory put: " + id + " = " + value);
+		}
 	}
 
 	@Override
@@ -112,19 +110,17 @@ class MyListener extends MyGrammarBaseListener
 	}
 
 	@Override
-	public void exitBoolDeclaration(MyGrammarParser.BoolDeclarationContext ctx) {
-		String id = ctx.ID().getText();
-		boolean value = false;
-		BooleanMap.put(id, value);
-		System.err.println("memory put: " + id + " = " + value);
-	}
-
-	@Override
 	public void exitBoolAssign(MyGrammarParser.BoolAssignContext ctx) {
 		String id = ctx.ID().getText();
-		boolean value = parseBoolean(ctx.BOOLEAN().getText().toLowerCase());
-		BooleanMap.put(id, value);
-		System.err.println("memory put: " + id + " = " + value);
+		if(ctx.BOOLEAN() == null){
+			boolean value = false;
+			BooleanMap.put(id, value);
+			System.err.println("memory put: " + id + " = " + value);
+		}else {
+			boolean value = parseBoolean(ctx.BOOLEAN().getText().toLowerCase());
+			BooleanMap.put(id, value);
+			System.err.println("memory put: " + id + " = " + value);
+		}
 	}
 
 	@Override

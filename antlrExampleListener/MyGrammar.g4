@@ -4,34 +4,34 @@ grammar MyGrammar;
 myStart :  statement + EOF;
 
 statement:   expression     #otherExpr
-         |   variable_declaration # assign
-         |   Print op=(INT| BOOLEAN |ID |STRING)  # printVar
-         |   Print mathExpression  # printExpr
+         |   variable       #assign
+         |   print_func     #print
          ;
 
-variable_declaration : int_variable_assignment
-                     | bool_variable_assignment
-                     | string_variable_assignment
-                     ;
+print_func:   Print op=(INT| BOOLEAN |ID |STRING)  # printVar
+          |   Print mathExpression  # printExpr
+          ;
 
-string_variable_assignment : StringType ID  # stringDeclaration
-                           | StringType ID Equals STRING # stringAssign
-                           | ID Equals STRING  # stringAssignValue
-                           ;
+variable : int_variable
+         | bool_variable
+         | string_variable
+         ;
 
-bool_variable_assignment : BoolType ID  # boolDeclaration
-                         | BoolType ID Equals BOOLEAN  # boolAssign
-                         | ID Equals BOOLEAN  # boolAssignValue
-                         ;
+string_variable : StringType ID (Equals STRING)? # stringAssign
+                | ID Equals STRING  # stringAssignValue
+                ;
 
-int_variable_assignment :  IntType ID  # intDeclaration
-                         | IntType ID Equals mathExpression  # intAssign
-                         | ID Equals mathExpression  # intAssignValue
-                         ;
+bool_variable : BoolType ID (Equals BOOLEAN)?  # boolAssign
+              | ID Equals BOOLEAN  # boolAssignValue
+              ;
+
+int_variable :  IntType ID (Equals mathExpression)?  # intAssign
+             |  ID Equals mathExpression  # intAssignValue
+             ;
 
 expression:   mathExpression #MathExp
-          |   BOOLEAN       #ValueBoolean
-          |   STRING     #ValueString
+          |   BOOLEAN        #ValueBoolean
+          |   STRING         #ValueString
           ;
 
 mathExpression:  mathExpression op=MUL mathExpression #  Mul
@@ -47,6 +47,7 @@ mathExpression:  mathExpression op=MUL mathExpression #  Mul
 
 
 // tokens
+Equals: '=';
 MUL:    '*';
 DIV:    '/';
 ADD:    '+';
@@ -55,8 +56,6 @@ POW:    '^';
 FACT:   '!';
 PARANL: '(';
 PARANR: ')';
-
-Equals:      '=';
 
 IntType: 'int';
 BoolType: 'bool';

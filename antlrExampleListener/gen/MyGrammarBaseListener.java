@@ -51,6 +51,18 @@ public class MyGrammarBaseListener implements MyGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterPrint(MyGrammarParser.PrintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrint(MyGrammarParser.PrintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPrintVar(MyGrammarParser.PrintVarContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -75,25 +87,13 @@ public class MyGrammarBaseListener implements MyGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVariable_declaration(MyGrammarParser.Variable_declarationContext ctx) { }
+	@Override public void enterVariable(MyGrammarParser.VariableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVariable_declaration(MyGrammarParser.Variable_declarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterStringDeclaration(MyGrammarParser.StringDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStringDeclaration(MyGrammarParser.StringDeclarationContext ctx) { }
+	@Override public void exitVariable(MyGrammarParser.VariableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -123,18 +123,6 @@ public class MyGrammarBaseListener implements MyGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBoolDeclaration(MyGrammarParser.BoolDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBoolDeclaration(MyGrammarParser.BoolDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterBoolAssign(MyGrammarParser.BoolAssignContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -154,18 +142,6 @@ public class MyGrammarBaseListener implements MyGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBoolAssignValue(MyGrammarParser.BoolAssignValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterIntDeclaration(MyGrammarParser.IntDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIntDeclaration(MyGrammarParser.IntDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
