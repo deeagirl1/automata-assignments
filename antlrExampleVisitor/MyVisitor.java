@@ -94,8 +94,6 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         Value right = visit(ctx.mathExpression(1));
 
         return new Value(Integer.parseInt(left.asString()) / Integer.parseInt(right.asString()));
-
-
     }
 
     @Override
@@ -158,7 +156,6 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         Value value = new Value(removeFirstAndLast(ctx.STRING().getText()));
         valueMap.replace(id, value);
         System.err.println("memory put: " + id + " = " + value);
-
         return value;
     }
 
@@ -302,6 +299,16 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         return value;
     }
 
+//    @Override
+//    public Value visitForLoop(Example2Parser.ForLoopContext ctx) {
+//        Example2Parser.ExpressionContext expression = ctx.for_loop().expression();
+//
+//        Value value = this.visit(expression.getChild(0));
+//
+//
+//        return value;
+//    }
+
     @Override
     public Value visitIf_statement(Example2Parser.If_statementContext ctx) {
         List<Example2Parser.Condition_blockContext> conditions = ctx.condition_block();
@@ -321,7 +328,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         }
 
         if (!evaluatedBlock && ctx.code_block() != null) {
-            // Evaluate the else code block if it is present
+
             this.visit(ctx.code_block());
         }
 

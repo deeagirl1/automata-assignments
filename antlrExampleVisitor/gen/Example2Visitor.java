@@ -52,6 +52,13 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIf_stat(Example2Parser.If_statContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code forLoop}
+	 * labeled alternative in {@link Example2Parser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForLoop(Example2Parser.ForLoopContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code newLine}
 	 * labeled alternative in {@link Example2Parser#statement}.
 	 * @param ctx the parse tree
@@ -78,6 +85,12 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitValue(Example2Parser.ValueContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Example2Parser#for_loop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFor_loop(Example2Parser.For_loopContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Example2Parser#if_statement}.
 	 * @param ctx the parse tree

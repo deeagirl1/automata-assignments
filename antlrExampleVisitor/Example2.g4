@@ -7,6 +7,7 @@ statement:   expression      #otherExpr
          |   print_func      #print
          |   while_statement #while_stat
          |   if_statement    #if_stat
+         |   for_loop        #forLoop
          |   NEWLINE         #newLine
          ;
 
@@ -19,43 +20,40 @@ value : int_variable
       | string_variable
       ;
 
+for_loop : FOR PARANL IntType ID IS_EQUAL expression SEMICOLON
+         ;
+
 if_statement
-        :   'if' condition_block ('else if' condition_block)* ('else' code_block)?
+        :   IF condition_block (ELSE IF condition_block)* (ELSE code_block)?
         ;
 
-while_statement
-        :   'while' condition_block
-        ;
+while_statement: WHILE condition_block;
 
-condition_block
-        :   '(' expression ')' code_block
-        ;
+condition_block: PARANL expression PARANR code_block;
 
-code_block
-        :   NEWLINE* '{' (NEWLINE*|statement*) '}'
-        |   NEWLINE? statement
-        ;
+code_block:   NEWLINE* OPEN_CURLY_BRACKET (NEWLINE*|statement*) CLOSE_CURLY_BRACKET
+          |   NEWLINE? statement
+          ;
 
-string_variable : StringType ID (Equals STRING)? # stringAssign
-                | ID Equals STRING  # stringAssignValue
+string_variable : StringType ID (IS_EQUAL STRING)? # stringAssign
+                | ID IS_EQUAL STRING  # stringAssignValue
                 ;
 
-bool_variable : BoolType ID (Equals BOOLEAN)?  # boolAssign
-              | ID Equals BOOLEAN  # boolAssignValue
+bool_variable : BoolType ID (IS_EQUAL BOOLEAN)?  # boolAssign
+              | ID IS_EQUAL BOOLEAN  # boolAssignValue
               ;
 
-int_variable :  IntType ID (Equals mathExpression)?        # intAssign
-             |  ID Equals mathExpression                   # intAssignValue
-             |  ID ('+='|'-='|'++'| '--') mathExpression?  # incrementAndDecrementInt
+int_variable :  IntType ID (IS_EQUAL mathExpression)?        # intAssign
+             |  ID IS_EQUAL mathExpression                   # intAssignValue
+             |  ID (ADD_INCREMENT| SUB_INCREMENT | INCREMENT | DECREMENT) mathExpression?  # incrementAndDecrementInt
              ;
-
 
 expression:   mathExpression #MathExp
           |   BOOLEAN        #ValueBoolean
           |   STRING         #ValueString
-          |   expression ('<=' | '>=' | '<' | '>' | '==' | '!=') expression	# ComparisonExpression
-          |   expression '&&' expression									# AndExpression
-          |   expression '||' expression									# OrExpression
+          |   expression (GREATER_OR_EQUAL | SMALLER_OR_EQUAL | GREATHER_THAN | SMALLER_THAN | EQUAL | NOT_EQUAL) expression	# ComparisonExpression
+          |   expression AND expression									# AndExpression
+          |   expression OR expression									# OrExpression
           ;
 
 mathExpression:  mathExpression op=MUL mathExpression #  Mul
@@ -73,7 +71,7 @@ mathExpression:  mathExpression op=MUL mathExpression #  Mul
 // tokens
 NEWLINE:   ('\r'? '\n');
 
-Equals: '=';
+IS_EQUAL: '=';
 MUL:    '*';
 DIV:    '/';
 ADD:    '+';
@@ -82,14 +80,38 @@ POW:    '^';
 FACT:   '!';
 PARANL: '(';
 PARANR: ')';
+DOT : '.';
+
+ADD_INCREMENT : '+=';
+SUB_INCREMENT : '-=';
+INCREMENT : '++';
+DECREMENT : '--';
+
+OPEN_CURLY_BRACKET : '{';
+CLOSE_CURLY_BRACKET : '}';
+
+AND : 'and';
+OR : 'or';
+
+GREATER_OR_EQUAL : '>=';
+SMALLER_OR_EQUAL : '<=';
+GREATHER_THAN : '>';
+SMALLER_THAN : '<';
+EQUAL : '==';
+NOT_EQUAL : '!=';
+
 
 IntType: 'int';
 BoolType: 'bool';
 StringType: 'string';
 
-DOT: '.';
+WHILE : 'while';
 COMMA: ',';
 SEMICOLON: ';';
+
+IF : 'if';
+ELSE : 'else';
+FOR : 'for';
 
 Print: 'print';
 
