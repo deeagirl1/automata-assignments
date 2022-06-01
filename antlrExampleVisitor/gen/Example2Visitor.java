@@ -38,6 +38,27 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrint(Example2Parser.PrintContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code while_stat}
+	 * labeled alternative in {@link Example2Parser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhile_stat(Example2Parser.While_statContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code if_stat}
+	 * labeled alternative in {@link Example2Parser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIf_stat(Example2Parser.If_statContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code newLine}
+	 * labeled alternative in {@link Example2Parser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNewLine(Example2Parser.NewLineContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code printVar}
 	 * labeled alternative in {@link Example2Parser#print_func}.
 	 * @param ctx the parse tree
@@ -52,11 +73,35 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrintExpr(Example2Parser.PrintExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Example2Parser#variable}.
+	 * Visit a parse tree produced by {@link Example2Parser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVariable(Example2Parser.VariableContext ctx);
+	T visitValue(Example2Parser.ValueContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Example2Parser#if_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIf_statement(Example2Parser.If_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Example2Parser#while_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhile_statement(Example2Parser.While_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Example2Parser#condition_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCondition_block(Example2Parser.Condition_blockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Example2Parser#code_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCode_block(Example2Parser.Code_blockContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code stringAssign}
 	 * labeled alternative in {@link Example2Parser#string_variable}.
@@ -100,12 +145,26 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIntAssignValue(Example2Parser.IntAssignValueContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code MathExp}
+	 * Visit a parse tree produced by the {@code incrementAndDecrementInt}
+	 * labeled alternative in {@link Example2Parser#int_variable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIncrementAndDecrementInt(Example2Parser.IncrementAndDecrementIntContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ComparisonExpression}
 	 * labeled alternative in {@link Example2Parser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMathExp(Example2Parser.MathExpContext ctx);
+	T visitComparisonExpression(Example2Parser.ComparisonExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code AndExpression}
+	 * labeled alternative in {@link Example2Parser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAndExpression(Example2Parser.AndExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ValueBoolean}
 	 * labeled alternative in {@link Example2Parser#expression}.
@@ -113,6 +172,20 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitValueBoolean(Example2Parser.ValueBooleanContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code OrExpression}
+	 * labeled alternative in {@link Example2Parser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOrExpression(Example2Parser.OrExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MathExp}
+	 * labeled alternative in {@link Example2Parser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMathExp(Example2Parser.MathExpContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ValueString}
 	 * labeled alternative in {@link Example2Parser#expression}.

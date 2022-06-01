@@ -3,6 +3,7 @@ import gen.Example2Parser;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.lang.Boolean.parseBoolean;
@@ -14,7 +15,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
 
     @Override
     public Value visitTerminal(TerminalNode node) {
-        System.err.println("[" + node.getText() + "]");
+//        System.err.println("[" + node.getText() + "]");
         return (new Value(node.getText()));
     }
 
@@ -40,6 +41,33 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
             value = this.visit(ctx.mathExpression());
             valueMap.put(id, value);
             System.err.println("memory put: " + id + " = " + value);
+        }
+        return value;
+    }
+
+    @Override
+    public Value visitIncrementAndDecrementInt(Example2Parser.IncrementAndDecrementIntContext ctx) {
+        String id = ctx.ID().getText();
+        Value value = null;
+        Value old = valueMap.get(id);
+        if (ctx.children.get(1).getText().equals("+=")) {
+            Value newVal = this.visit(ctx.mathExpression());
+            System.err.println("The new value is " + " = " + (Integer.parseInt(old.asString()) + Integer.parseInt(newVal.asString())));
+            value = new Value(Integer.parseInt(old.asString()) + Integer.parseInt(newVal.asString()));
+            valueMap.put(id, value);
+        }else if(ctx.children.get(1).getText().equals("-=")){
+            Value newVal = this.visit(ctx.mathExpression());
+            System.err.println("The new value is " + " = " + (Integer.parseInt(old.asString()) - Integer.parseInt(newVal.asString())));
+            value = new Value(Integer.parseInt(old.asString()) - Integer.parseInt(newVal.asString()));
+            valueMap.put(id, value);
+        } else if (ctx.children.stream().anyMatch(e -> e.getText().equals("++"))) {
+            System.err.println("The new value is " + " = " + (Integer.parseInt(old.asString()) + 1));
+            value = new Value(Integer.parseInt(old.asString()) + 1);
+            valueMap.put(id, value);
+        } else if (ctx.children.stream().anyMatch(e -> e.getText().equals("--"))) {
+            System.err.println("The new value is " + " = " + (Integer.parseInt(old.asString()) - 1));
+            value = new Value(Integer.parseInt(old.asString()) - 1);
+            valueMap.put(id, value);
         }
         return value;
     }
@@ -211,6 +239,93 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         System.err.println(left + " to the power of " + right);
         return new Value(result);
 
+    }
+
+    @Override
+    public Value visitComparisonExpression(Example2Parser.ComparisonExpressionContext ctx) {
+        Value leftValue = visit(ctx.expression(0));
+        Value rightValue = visit(ctx.expression(1));
+        int left = Integer.parseInt(leftValue.asString());
+        int right = Integer.parseInt(rightValue.asString());
+
+        switch (ctx.getChild(1).getText()) {
+            case ">":
+                System.err.println("The result is " + " = " + (left > right));
+                return new Value(left > right);
+            case "<":
+                System.err.println("The result is " + " = " + (left < right));
+                return new Value(left < right);
+            case "<=":
+                System.err.println("The result is " + " = " + (left <= right));
+                return new Value(left <= right);
+            case ">=":
+                System.err.println("The result is " + " = " + (left >= right));
+                return new Value(left >= right);
+            case "==":
+                System.err.println("The result is " + " = " + (left == right));
+                return new Value(left == right);
+            case "!=":
+                System.err.println("The result is " + " = " + (left != right));
+                return new Value(left != right);
+            default:
+                return new Value(new Object());
+        }
+    }
+
+    @Override
+    public Value visitAndExpression(Example2Parser.AndExpressionContext ctx) {
+        Value value = new Value(this.visit(ctx.expression(0)).asBoolean() && this.visit(ctx.expression(1)).asBoolean());
+        System.err.println("The result is of {and} Expr " + " = " + (value));
+        return value;
+    }
+
+    @Override
+    public Value visitOrExpression(Example2Parser.OrExpressionContext ctx) {
+        Value value = new Value(this.visit(ctx.expression(0)).asBoolean() || this.visit(ctx.expression(1)).asBoolean());
+        System.err.println("The result is of {or} Expr " + " = " + (value));
+        return value;
+    }
+
+    @Override
+    public Value visitWhile_statement(Example2Parser.While_statementContext ctx) {
+        Example2Parser.Condition_blockContext condition = ctx.condition_block();
+
+        Value value = this.visit(condition.expression());
+
+        while (Boolean.TRUE.equals(value.asBoolean())) {
+            // Visit code block
+            this.visit(condition.code_block());
+
+            // Evaluate expression
+            value = this.visit(condition.expression());
+        }
+        return value;
+    }
+
+    @Override
+    public Value visitIf_statement(Example2Parser.If_statementContext ctx) {
+        List<Example2Parser.Condition_blockContext> conditions = ctx.condition_block();
+
+        var evaluatedBlock = false;
+
+        for (Example2Parser.Condition_blockContext condition : conditions) {
+
+            Value evaluated = this.visit(condition.expression());
+
+            if (Boolean.TRUE.equals(evaluated.asBoolean())) {
+                evaluatedBlock = true;
+
+                this.visit(condition.code_block());
+                break;
+            }
+        }
+
+        if (!evaluatedBlock && ctx.code_block() != null) {
+            // Evaluate the else code block if it is present
+            this.visit(ctx.code_block());
+        }
+
+        return new Value(new Object());
     }
 }
 
