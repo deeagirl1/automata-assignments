@@ -299,16 +299,6 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         return value;
     }
 
-//    @Override
-//    public Value visitForLoop(Example2Parser.ForLoopContext ctx) {
-//        Example2Parser.ExpressionContext expression = ctx.for_loop().expression();
-//
-//        Value value = this.visit(expression.getChild(0));
-//
-//
-//        return value;
-//    }
-
     @Override
     public Value visitIf_statement(Example2Parser.If_statementContext ctx) {
         List<Example2Parser.Condition_blockContext> conditions = ctx.condition_block();

@@ -7,7 +7,6 @@ statement:   expression      #otherExpr
          |   print_func      #print
          |   while_statement #while_stat
          |   if_statement    #if_stat
-         |   for_loop        #forLoop
          |   NEWLINE         #newLine
          ;
 
@@ -20,8 +19,6 @@ value : int_variable
       | string_variable
       ;
 
-for_loop : FOR PARANL IntType ID IS_EQUAL expression SEMICOLON
-         ;
 
 if_statement
         :   IF condition_block (ELSE IF condition_block)* (ELSE code_block)?
