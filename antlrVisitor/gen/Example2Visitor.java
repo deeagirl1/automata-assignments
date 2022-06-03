@@ -52,13 +52,6 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIf_stat(Example2Parser.If_statContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code newLine}
-	 * labeled alternative in {@link Example2Parser#statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNewLine(Example2Parser.NewLineContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code printVar}
 	 * labeled alternative in {@link Example2Parser#print_func}.
 	 * @param ctx the parse tree

@@ -3,7 +3,6 @@ import gen.Example2Parser;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static java.lang.Boolean.parseBoolean;
@@ -285,36 +284,27 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
 
     @Override
     public Value visitWhile_statement(Example2Parser.While_statementContext ctx) {
-        Example2Parser.Condition_blockContext condition = ctx.condition_block();
-
-        Value value = this.visit(condition.expression());
+        Value value = this.visit(ctx.condition_block().expression());
 
         while (Boolean.TRUE.equals(value.asBoolean())) {
             // Visit code block
-            this.visit(condition.code_block());
+            this.visit(ctx.condition_block().code_block());
 
             // Evaluate expression
-            value = this.visit(condition.expression());
+            value = this.visit(ctx.condition_block().expression());
         }
         return value;
     }
 
     @Override
     public Value visitIf_statement(Example2Parser.If_statementContext ctx) {
-        List<Example2Parser.Condition_blockContext> conditions = ctx.condition_block();
-
         var evaluatedBlock = false;
+        Value evaluated = this.visit(ctx.condition_block().expression());
 
-        for (Example2Parser.Condition_blockContext condition : conditions) {
+        if (Boolean.TRUE.equals(evaluated.asBoolean())) {
+            evaluatedBlock = true;
 
-            Value evaluated = this.visit(condition.expression());
-
-            if (Boolean.TRUE.equals(evaluated.asBoolean())) {
-                evaluatedBlock = true;
-
-                this.visit(condition.code_block());
-                break;
-            }
+            this.visit(ctx.condition_block().code_block());
         }
 
         if (!evaluatedBlock && ctx.code_block() != null) {

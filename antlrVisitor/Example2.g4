@@ -1,13 +1,12 @@
 grammar Example2;
 
-start2		: NEWLINE* statement (NEWLINE+ statement)* NEWLINE* EOF;
+start2		: statement* EOF;
 
 statement:   expression      #otherExpr
          |   value           #assign
          |   print_func      #print
          |   while_statement #while_stat
          |   if_statement    #if_stat
-         |   NEWLINE         #newLine
          ;
 
 print_func:   Print op=(INT| BOOLEAN |ID |STRING)  #printVar
@@ -21,15 +20,15 @@ value : int_variable
 
 
 if_statement
-        :   IF condition_block (ELSE IF condition_block)* (ELSE code_block)?
+        :   IF condition_block (ELSE code_block)?
         ;
 
 while_statement: WHILE condition_block;
 
 condition_block: PARANL expression PARANR code_block;
 
-code_block:   NEWLINE* OPEN_CURLY_BRACKET (NEWLINE*|statement*) CLOSE_CURLY_BRACKET
-          |   NEWLINE? statement
+code_block:   OPEN_CURLY_BRACKET statement* CLOSE_CURLY_BRACKET
+          |   statement
           ;
 
 string_variable : StringType ID (IS_EQUAL STRING)? # stringAssign
@@ -66,8 +65,6 @@ mathExpression:  mathExpression op=MUL mathExpression #  Mul
 
 
 // tokens
-NEWLINE:   ('\r'? '\n');
-
 IS_EQUAL: '=';
 MUL:    '*';
 DIV:    '/';
