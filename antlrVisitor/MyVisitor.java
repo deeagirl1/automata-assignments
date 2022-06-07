@@ -2,8 +2,7 @@ import gen.Example2BaseVisitor;
 import gen.Example2Parser;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.Boolean.parseBoolean;
 
@@ -11,10 +10,12 @@ import static java.lang.Boolean.parseBoolean;
 public class MyVisitor extends Example2BaseVisitor<Value> {
 
     private final Map<String, Value> valueMap = new HashMap<>();
+    Map<String, Value> secondMemory = new HashMap<>();
+    Map<String,Example2Parser.Code_blockContext> functBlockMemory= new HashMap<>();
+    Map<String, List<String>> functParameterMemory = new HashMap<>();
 
     @Override
     public Value visitTerminal(TerminalNode node) {
-//        System.err.println("[" + node.getText() + "]");
         return (new Value(node.getText()));
     }
 
@@ -189,7 +190,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
 
     @Override
     public Value visitPrintExpr(Example2Parser.PrintExprContext ctx) {
-        Value value = visit(ctx.mathExpression());
+        Value value = this.visit(ctx.mathExpression());
         System.err.println("printed "+ctx.mathExpression().getText()+" = "+ value);
         return value;
     }
@@ -313,6 +314,79 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         }
 
         return new Value(new Object());
+    }
+
+    @Override
+    public Value visitFunction_declaration(Example2Parser.Function_declarationContext ctx) {
+        String id=(ctx.ID().getText());
+        //we save the context in memory so we can visit it later
+        functBlockMemory.put(id,ctx.code_block());
+
+        //put in memory the functional name and parameters
+        List<String> params = new ArrayList<>();
+        int i=0;
+        while(ctx.parameters_funcDec().ID(i)!=null){
+            String paramName=ctx.parameters_funcDec().ID(i).getText();
+            params.add(paramName);
+            i++;
+        }
+
+        functParameterMemory.put(id,params);
+        return Value.VOID;
+    }
+
+    @Override
+    public Value visitFunction_call(Example2Parser.Function_callContext ctx) {
+        String name=ctx.ID().getText();
+
+        Map<String, Value> functVariablesMemory = new HashMap<>();
+        for (int i = 0; i < functParameterMemory.get(name).size(); i++)
+        {
+            String formalParam=functParameterMemory.get(name).get(i);
+            Value actualParam=visit(ctx.parameters_funcCall().expression(i));
+            functVariablesMemory.put(formalParam,actualParam );
+            System.err.println("Formal Parameter: " +formalParam + " -> " + "Actual Parameter: " + actualParam);
+        }
+
+        Iterator<Map.Entry<String, Value>> i = valueMap.entrySet().iterator();
+        Iterator<Map.Entry<String, Value>> j = functVariablesMemory.entrySet().iterator();
+
+        secondMemory.putAll(valueMap);
+
+        valueMap.putAll(functVariablesMemory);
+
+        for (Map.Entry<String, Value> stringValueEntry : valueMap.entrySet()) {
+            Map.Entry<String, Value> element = stringValueEntry;
+        }
+
+
+        int index=0;
+        Value returnValue = new Value(0);
+        while(functBlockMemory.get(ctx.ID().getText()).statement(index)!=null){
+            String statName = functBlockMemory.get(ctx.ID().getText()).statement(index).getText();
+
+            Value v= this.visit(functBlockMemory.get(ctx.ID().getText()).statement(index));
+            if(statName.contains("return")){
+                System.out.println("RETURNED VALUE IS " + v);
+                returnValue = v;
+                break;
+            }
+            index++;
+        }
+
+        valueMap.clear();
+        valueMap.putAll(secondMemory);
+        return returnValue;
+    }
+
+    @Override
+    public Value visitReturnStat(Example2Parser.ReturnStatContext ctx) {
+        return this.visit(ctx.expression());
+    }
+
+
+    private void print(String val){
+        System.err.println(val);
     }
 }
 

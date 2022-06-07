@@ -2,26 +2,39 @@ grammar Example2;
 
 start2		: statement* EOF;
 
-statement:   expression      #otherExpr
-         |   value           #assign
-         |   print_func      #print
-         |   while_statement #while_stat
-         |   if_statement    #if_stat
+statement:   variables
+         |   print_func
+         |   while_statement
+         |   if_statement
+         |   function_declaration
+         |   function_call
+         |   returnStat
+         |   expression
          ;
 
 print_func:   Print op=(INT| BOOLEAN |ID |STRING)  #printVar
           |   Print mathExpression                 #printExpr
           ;
 
-value : int_variable
-      | bool_variable
-      | string_variable
-      ;
+variables : int_variable
+          | bool_variable
+          | string_variable
+          ;
 
 
-if_statement
-        :   IF condition_block (ELSE code_block)?
-        ;
+returnStat: RETURN expression;
+
+variables_type: IntType| BoolType | StringType;
+
+parameters_funcDec:  (variables_type ID (COMMA variables_type ID)*)? ;
+
+parameters_funcCall:  (expression (COMMA expression)*)? ;
+
+function_declaration : FUNCTION ID PARANL parameters_funcDec PARANR code_block;
+
+function_call : ID PARANL parameters_funcCall PARANR;
+
+if_statement:   IF condition_block (ELSE code_block)?;
 
 while_statement: WHILE condition_block;
 
@@ -50,6 +63,7 @@ expression:   mathExpression #MathExp
           |   expression (GREATER_OR_EQUAL | SMALLER_OR_EQUAL | GREATHER_THAN | SMALLER_THAN | EQUAL | NOT_EQUAL) expression	# ComparisonExpression
           |   expression AND expression									# AndExpression
           |   expression OR expression									# OrExpression
+          |   function_call                                             # FUNCTIONExpr
           ;
 
 mathExpression:  mathExpression op=MUL mathExpression #  Mul
@@ -61,6 +75,7 @@ mathExpression:  mathExpression op=MUL mathExpression #  Mul
              |   PARANL mathExpression PARANR  # parens
              |   INT #ValueNumber
              |   ID    #ValueVariable
+             |   function_call                                        # FUNCTIONMathExpr
              ;
 
 
@@ -107,6 +122,9 @@ IF : 'if';
 ELSE : 'else';
 FOR : 'for';
 
+VOID : 'void';
+RETURN: 'return';
+FUNCTION: 'function';
 Print: 'print';
 
 INT     : SUB?[0-9]+(DOT[0-9]+)? ;

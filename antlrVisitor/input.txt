@@ -1,12 +1,5 @@
-int a = 1
-int b = 2
-if (a < 4 and b == 2){
-   print "Hello"
+function myfunction(int i){
+     return 4 + 10 + i
 }
 
-
-int i = 0
-while(i < 6){
-      i = i + 1
-      print i
-}
+myfunction(4)
