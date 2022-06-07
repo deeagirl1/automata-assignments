@@ -2,14 +2,14 @@ grammar Example2;
 
 start2		: statement* EOF;
 
-statement:   variables
-         |   print_func
+statement:   print_func
          |   while_statement
          |   if_statement
          |   function_declaration
          |   function_call
          |   returnStat
          |   expression
+         |   variables
          ;
 
 print_func:   Print op=(INT| BOOLEAN |ID |STRING)  #printVar
@@ -57,16 +57,18 @@ int_variable :  IntType ID (IS_EQUAL mathExpression)?        # intAssign
              |  ID (ADD_INCREMENT| SUB_INCREMENT | INCREMENT | DECREMENT) mathExpression?  # incrementAndDecrementInt
              ;
 
-expression:   mathExpression #MathExp
+expression:
+              function_call  # FUNCTIONExpr
+          |   mathExpression #MathExp
           |   BOOLEAN        #ValueBoolean
           |   STRING         #ValueString
           |   expression (GREATER_OR_EQUAL | SMALLER_OR_EQUAL | GREATHER_THAN | SMALLER_THAN | EQUAL | NOT_EQUAL) expression	# ComparisonExpression
           |   expression AND expression									# AndExpression
           |   expression OR expression									# OrExpression
-          |   function_call                                             # FUNCTIONExpr
           ;
 
-mathExpression:  mathExpression op=MUL mathExpression #  Mul
+mathExpression:  function_call                        # FUNCTIONMathExpr
+             |   mathExpression op=MUL mathExpression #  Mul
              |   mathExpression op=DIV mathExpression #  Div
              |   mathExpression op=ADD mathExpression #  Add
              |   mathExpression op=SUB mathExpression #  Sub
@@ -75,7 +77,6 @@ mathExpression:  mathExpression op=MUL mathExpression #  Mul
              |   PARANL mathExpression PARANR  # parens
              |   INT #ValueNumber
              |   ID    #ValueVariable
-             |   function_call                                        # FUNCTIONMathExpr
              ;
 
 

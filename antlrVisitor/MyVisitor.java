@@ -11,8 +11,8 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
 
     private final Map<String, Value> valueMap = new HashMap<>();
     Map<String, Value> secondMemory = new HashMap<>();
-    Map<String,Example2Parser.Code_blockContext> functBlockMemory= new HashMap<>();
-    Map<String, List<String>> functParameterMemory = new HashMap<>();
+    Map<String,Example2Parser.Code_blockContext> functionCode_blockMemory = new HashMap<>();
+    Map<String, List<String>> functionParameterMemory = new HashMap<>();
 
     @Override
     public Value visitTerminal(TerminalNode node) {
@@ -320,7 +320,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
     public Value visitFunction_declaration(Example2Parser.Function_declarationContext ctx) {
         String id=(ctx.ID().getText());
         //we save the context in memory so we can visit it later
-        functBlockMemory.put(id,ctx.code_block());
+        functionCode_blockMemory.put(id,ctx.code_block());
 
         //put in memory the functional name and parameters
         List<String> params = new ArrayList<>();
@@ -331,7 +331,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
             i++;
         }
 
-        functParameterMemory.put(id,params);
+        functionParameterMemory.put(id,params);
         return Value.VOID;
     }
 
@@ -340,32 +340,26 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         String name=ctx.ID().getText();
 
         Map<String, Value> functVariablesMemory = new HashMap<>();
-        for (int i = 0; i < functParameterMemory.get(name).size(); i++)
+
+        for (int i = 0; i < functionParameterMemory.get(name).size(); i++)
         {
-            String formalParam=functParameterMemory.get(name).get(i);
-            Value actualParam=visit(ctx.parameters_funcCall().expression(i));
-            functVariablesMemory.put(formalParam,actualParam );
+            String formalParam= functionParameterMemory.get(name).get(i);
+            Value actualParam= this.visit(ctx.parameters_funcCall().expression(i));
+            functVariablesMemory.put(formalParam,actualParam);
             System.err.println("Formal Parameter: " +formalParam + " -> " + "Actual Parameter: " + actualParam);
         }
 
-        Iterator<Map.Entry<String, Value>> i = valueMap.entrySet().iterator();
-        Iterator<Map.Entry<String, Value>> j = functVariablesMemory.entrySet().iterator();
-
         secondMemory.putAll(valueMap);
-
         valueMap.putAll(functVariablesMemory);
 
-        for (Map.Entry<String, Value> stringValueEntry : valueMap.entrySet()) {
-            Map.Entry<String, Value> element = stringValueEntry;
-        }
 
 
         int index=0;
         Value returnValue = new Value(0);
-        while(functBlockMemory.get(ctx.ID().getText()).statement(index)!=null){
-            String statName = functBlockMemory.get(ctx.ID().getText()).statement(index).getText();
+        while(functionCode_blockMemory.get(ctx.ID().getText()).statement(index)!=null){
+            String statName = functionCode_blockMemory.get(ctx.ID().getText()).statement(index).getText();
 
-            Value v= this.visit(functBlockMemory.get(ctx.ID().getText()).statement(index));
+            Value v= this.visit(functionCode_blockMemory.get(ctx.ID().getText()).statement(index));
             if(statName.contains("return")){
                 System.out.println("RETURNED VALUE IS " + v);
                 returnValue = v;

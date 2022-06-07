@@ -180,6 +180,13 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitOrExpression(Example2Parser.OrExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code FUNCTIONExpr}
+	 * labeled alternative in {@link Example2Parser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFUNCTIONExpr(Example2Parser.FUNCTIONExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code MathExp}
 	 * labeled alternative in {@link Example2Parser#expression}.
 	 * @param ctx the parse tree
@@ -193,13 +200,6 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitValueString(Example2Parser.ValueStringContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code FUNCTIONExpr}
-	 * labeled alternative in {@link Example2Parser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFUNCTIONExpr(Example2Parser.FUNCTIONExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Div}
 	 * labeled alternative in {@link Example2Parser#mathExpression}.
