@@ -35,4 +35,29 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitModelR(Example2Parser.ModelRContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code modelB}
+	 * labeled alternative in {@link Example2Parser#model}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitModelB(Example2Parser.ModelBContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Example2Parser#checkOut}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCheckOut(Example2Parser.CheckOutContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Example2Parser#output}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOutput(Example2Parser.OutputContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Example2Parser#define}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefine(Example2Parser.DefineContext ctx);
 }
