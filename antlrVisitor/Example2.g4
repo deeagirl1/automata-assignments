@@ -6,8 +6,8 @@ statement:   print_func
          |   while_statement
          |   if_statement
          |   function_declaration
-         |   function_call
          |   returnStat
+         |   function_call
          |   expression
          |   variables
          ;
@@ -30,7 +30,9 @@ parameters_funcDec:  (variables_type ID (COMMA variables_type ID)*)? ;
 
 parameters_funcCall:  (expression (COMMA expression)*)? ;
 
-function_declaration : FUNCTION ID PARANL parameters_funcDec PARANR code_block;
+function_declaration : FUNCTION ID function_block;
+
+function_block : PARANL parameters_funcDec PARANR code_block;
 
 function_call : ID PARANL parameters_funcCall PARANR;
 

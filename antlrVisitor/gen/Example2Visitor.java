@@ -73,6 +73,12 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunction_declaration(Example2Parser.Function_declarationContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Example2Parser#function_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunction_block(Example2Parser.Function_blockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Example2Parser#function_call}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
