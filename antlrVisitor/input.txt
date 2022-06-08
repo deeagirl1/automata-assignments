@@ -1,10 +1,10 @@
 int m = 10
-function myFunction(int i){
-    if(1>0)
-    {
-       return i
+function myFunction(){
+    if (1 > 0){
+        return "Hell0"
     }
-
+    return "sss"
 }
 
-int c = myFunction(4+m)
+string c = myFunction()
+print c

@@ -4,8 +4,6 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.*;
 
-import static java.lang.Boolean.parseBoolean;
-
 
 public class MyVisitor extends Example2BaseVisitor<Value> {
 
@@ -21,7 +19,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
     @Override
     public Value visitIntAssign(Example2Parser.IntAssignContext ctx) {
         String id = ctx.ID().getText();
-        Value value = null;
+        Value value;
         if(ctx.mathExpression() == null){
             value = new Value(0);
         }else {
@@ -128,16 +126,16 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
     @Override
     public Value visitStringAssign(Example2Parser.StringAssignContext ctx) {
         String id = ctx.ID().getText();
-        Value variable = null;
-        if(ctx.STRING() == null){
+        Value variable;
+        if(ctx.expression() == null){
             variable = new Value("");
             valueMap.put(id, variable);
             System.err.println("memory put: " + id + " = " + variable);
         }else {
-            String value = removeFirstAndLast(ctx.STRING().getText());
+            Value value = this.visit(ctx.expression());
             variable = new Value(value);
             valueMap.put(id,variable);
-            System.err.println("memory put: " + id + " = " + removeFirstAndLast(value));
+            System.err.println("memory put: " + id + " = " + removeFirstAndLast(value.toString()));
         }
         return variable;
     }
@@ -152,7 +150,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
     @Override
     public Value visitStringAssignValue(Example2Parser.StringAssignValueContext ctx) {
         String id = ctx.ID().getText();
-        Value value = new Value(removeFirstAndLast(ctx.STRING().getText()));
+        Value value = this.visit(ctx.expression());
         valueMap.replace(id, value);
         System.err.println("memory put: " + id + " = " + value);
         return value;
@@ -197,24 +195,21 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
     @Override
     public Value visitBoolAssign(Example2Parser.BoolAssignContext ctx) {
         String id = ctx.ID().getText();
-        Value value = null;
-        if (ctx.BOOLEAN() == null){
+        Value value;
+        if (ctx.expression() == null){
             value = new Value(false);
-            valueMap.put(id, value);
-            System.err.println("memory put: " + id + " = " + value);
         } else {
-            value = new Value(parseBoolean(ctx.BOOLEAN().getText().toLowerCase()));
-            valueMap.put(id, value);
-            System.err.println("memory put: " + id + " = " + value);
+            value = this.visit(ctx.expression());
         }
+        valueMap.put(id, value);
+        System.err.println("memory put: " + id + " = " + value);
         return value;
     }
 
     @Override
     public Value visitBoolAssignValue(Example2Parser.BoolAssignValueContext ctx) {
         String id = ctx.ID().getText();
-        Value value = null;
-        value = new Value(parseBoolean(ctx.BOOLEAN().getText().toLowerCase()));
+        Value value = this.visit(ctx.expression());
         valueMap.put(id, value);
         System.err.println("memory put: " + id + " = " + value);
 
@@ -230,7 +225,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
     public Value visitPow(Example2Parser.PowContext ctx) {
         Value left = visit(ctx.mathExpression(0));
         Value right = visit(ctx.mathExpression(1));
-        int result = 0;
+        int result;
         result = (int) Math.pow(Double.parseDouble(left.asString()), Double.parseDouble(right.asString()));
         System.err.println(left + " to the power of " + right);
         return new Value(result);
@@ -334,7 +329,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
             String formalParam= functionCode_blockMemory.get(name).parameters_funcDec().ID().get(i).getText();
             Value actualParam= this.visit(ctx.parameters_funcCall().expression(i));
             functVariablesMemory.put(formalParam,actualParam);
-            System.err.println("Formal Parameter: " +formalParam + " -> " + "Actual Parameter: " + actualParam);
+            print("Formal Parameter: " +formalParam + " -> " + "Actual Parameter: " + actualParam);
         }
 
         secondMemory.putAll(valueMap);
@@ -342,15 +337,15 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
 
 
         // TODO only visit the statements
-
-        Value v= this.visit(functionCode_blockMemory.get(ctx.ID().getText()).code_block().statement(0));
-
+        Value v = null;
+        for (Example2Parser.StatementContext statement : functionCode_blockMemory.get(name).code_block().statement()) {
+            v = this.visit(statement); //Execute all statements
+        }
 
         valueMap.clear();
         valueMap.putAll(secondMemory);
         return v;
     }
-
 
     @Override
     public Value visitReturnStat(Example2Parser.ReturnStatContext ctx) {

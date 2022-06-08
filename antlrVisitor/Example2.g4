@@ -46,12 +46,12 @@ code_block:   OPEN_CURLY_BRACKET statement* CLOSE_CURLY_BRACKET
           |   statement
           ;
 
-string_variable : StringType ID (IS_EQUAL STRING)? # stringAssign
-                | ID IS_EQUAL STRING  # stringAssignValue
+string_variable : StringType ID (IS_EQUAL expression)? # stringAssign
+                | ID IS_EQUAL expression  # stringAssignValue
                 ;
 
-bool_variable : BoolType ID (IS_EQUAL BOOLEAN)?  # boolAssign
-              | ID IS_EQUAL BOOLEAN  # boolAssignValue
+bool_variable : BoolType ID (IS_EQUAL expression)?  # boolAssign
+              | ID IS_EQUAL expression  # boolAssignValue
               ;
 
 int_variable :  IntType ID (IS_EQUAL mathExpression)?        # intAssign
