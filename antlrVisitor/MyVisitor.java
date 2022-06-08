@@ -11,9 +11,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
 
     private final Map<String, Value> valueMap = new HashMap<>();
     Map<String, Value> secondMemory = new HashMap<>();
-    // TODO mix these two hashmaps together
-    Map<String,Example2Parser.Code_blockContext> functionCode_blockMemory = new HashMap<>();
-    Map<String, List<String>> functionParameterMemory = new HashMap<>();
+    Map<String,Example2Parser.Function_blockContext> functionCode_blockMemory = new HashMap<>();
 
     @Override
     public Value visitTerminal(TerminalNode node) {
@@ -321,18 +319,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
     public Value visitFunction_declaration(Example2Parser.Function_declarationContext ctx) {
         String id=(ctx.ID().getText());
         //we save the context in memory so we can visit it later
-        functionCode_blockMemory.put(id,ctx.code_block());
-
-        //put in memory the functional name and parameters
-        List<String> params = new ArrayList<>();
-        int i=0;
-        while(ctx.parameters_funcDec().ID(i)!=null){
-            String paramName=ctx.parameters_funcDec().ID(i).getText();
-            params.add(paramName);
-            i++;
-        }
-
-        functionParameterMemory.put(id,params);
+        functionCode_blockMemory.put(id,ctx.function_block());
         return Value.VOID;
     }
 
@@ -342,9 +329,9 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
 
         Map<String, Value> functVariablesMemory = new HashMap<>();
 
-        for (int i = 0; i < functionParameterMemory.get(name).size(); i++)
+        for (int i = 0; i < functionCode_blockMemory.get(name).parameters_funcDec().ID().size(); i++)
         {
-            String formalParam= functionParameterMemory.get(name).get(i);
+            String formalParam= functionCode_blockMemory.get(name).parameters_funcDec().ID().get(i).getText();
             Value actualParam= this.visit(ctx.parameters_funcCall().expression(i));
             functVariablesMemory.put(formalParam,actualParam);
             System.err.println("Formal Parameter: " +formalParam + " -> " + "Actual Parameter: " + actualParam);
@@ -354,26 +341,16 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         valueMap.putAll(functVariablesMemory);
 
 
-
         // TODO only visit the statements
-        int index=0;
-        Value returnValue = new Value(0);
-        while(functionCode_blockMemory.get(ctx.ID().getText()).statement(index)!=null){
-            String statName = functionCode_blockMemory.get(ctx.ID().getText()).statement(index).getText();
 
-            Value v= this.visit(functionCode_blockMemory.get(ctx.ID().getText()).statement(index));
-            if(statName.contains("return")){
-                System.out.println("RETURNED VALUE IS " + v);
-                returnValue = v;
-                break;
-            }
-            index++;
-        }
+        Value v= this.visit(functionCode_blockMemory.get(ctx.ID().getText()).code_block().statement(0));
+
 
         valueMap.clear();
         valueMap.putAll(secondMemory);
-        return returnValue;
+        return v;
     }
+
 
     @Override
     public Value visitReturnStat(Example2Parser.ReturnStatContext ctx) {
