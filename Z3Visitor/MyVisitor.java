@@ -26,8 +26,8 @@ public class MyVisitor extends Example2BaseVisitor<Integer> {
 
     @Override
     public Integer visitIte(Example2Parser.IteContext ctx) {
-        int firstNr = Integer.parseInt(ctx.output(0).NUMBER().getText());
-        int secondNr = Integer.parseInt(ctx.output(1).NUMBER().getText());
+        int firstNr = Integer.parseInt(ctx.get_assignment(0).NUMBER().getText());
+        int secondNr = Integer.parseInt(ctx.get_assignment(1).NUMBER().getText());
         int value = Integer.parseInt(ctx.NUMBER(0).getText());
         SudokuGrid[firstNr-1][secondNr-1] = value;
         return super.visitIte(ctx);

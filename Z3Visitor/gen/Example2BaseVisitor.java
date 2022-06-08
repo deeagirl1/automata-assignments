@@ -59,12 +59,12 @@ public class Example2BaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitOutput(Example2Parser.OutputContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGet_assignment(Example2Parser.Get_assignmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDefine(Example2Parser.DefineContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGlobal_declarations(Example2Parser.Global_declarationsContext ctx) { return visitChildren(ctx); }
 }

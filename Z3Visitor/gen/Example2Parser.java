@@ -21,11 +21,11 @@ public class Example2Parser extends Parser {
 		DEFINE_FUN=10, ID=11, PARANL=12, PARANR=13, NEWLINE=14;
 	public static final int
 		RULE_start2 = 0, RULE_checkSatResponse = 1, RULE_checkModelResponse = 2, 
-		RULE_model = 3, RULE_ite = 4, RULE_output = 5, RULE_define = 6;
+		RULE_model = 3, RULE_ite = 4, RULE_get_assignment = 5, RULE_global_declarations = 6;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"start2", "checkSatResponse", "checkModelResponse", "model", "ite", "output", 
-			"define"
+			"start2", "checkSatResponse", "checkModelResponse", "model", "ite", "get_assignment", 
+			"global_declarations"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -286,11 +286,11 @@ public class Example2Parser extends Parser {
 		public TerminalNode DEFINE_FUN() { return getToken(Example2Parser.DEFINE_FUN, 0); }
 		public TerminalNode ID() { return getToken(Example2Parser.ID, 0); }
 		public TerminalNode INT() { return getToken(Example2Parser.INT, 0); }
-		public List<DefineContext> define() {
-			return getRuleContexts(DefineContext.class);
+		public List<Global_declarationsContext> global_declarations() {
+			return getRuleContexts(Global_declarationsContext.class);
 		}
-		public DefineContext define(int i) {
-			return getRuleContext(DefineContext.class,i);
+		public Global_declarationsContext global_declarations(int i) {
+			return getRuleContext(Global_declarationsContext.class,i);
 		}
 		public ModelBContext(ModelContext ctx) { copyFrom(ctx); }
 		@Override
@@ -352,7 +352,7 @@ public class Example2Parser extends Parser {
 					{
 					{
 					setState(41);
-					define();
+					global_declarations();
 					}
 					}
 					setState(46);
@@ -398,11 +398,11 @@ public class Example2Parser extends Parser {
 		public TerminalNode NUMBER(int i) {
 			return getToken(Example2Parser.NUMBER, i);
 		}
-		public List<OutputContext> output() {
-			return getRuleContexts(OutputContext.class);
+		public List<Get_assignmentContext> get_assignment() {
+			return getRuleContexts(Get_assignmentContext.class);
 		}
-		public OutputContext output(int i) {
-			return getRuleContext(OutputContext.class,i);
+		public Get_assignmentContext get_assignment(int i) {
+			return getRuleContext(Get_assignmentContext.class,i);
 		}
 		public List<IteContext> ite() {
 			return getRuleContexts(IteContext.class);
@@ -443,7 +443,7 @@ public class Example2Parser extends Parser {
 				{
 				{
 				setState(59);
-				output();
+				get_assignment();
 				}
 				}
 				setState(64);
@@ -497,26 +497,26 @@ public class Example2Parser extends Parser {
 		return _localctx;
 	}
 
-	public static class OutputContext extends ParserRuleContext {
+	public static class Get_assignmentContext extends ParserRuleContext {
 		public TerminalNode PARANL() { return getToken(Example2Parser.PARANL, 0); }
 		public TerminalNode EQUAL() { return getToken(Example2Parser.EQUAL, 0); }
 		public TerminalNode ID() { return getToken(Example2Parser.ID, 0); }
 		public TerminalNode NUMBER() { return getToken(Example2Parser.NUMBER, 0); }
 		public TerminalNode PARANR() { return getToken(Example2Parser.PARANR, 0); }
-		public OutputContext(ParserRuleContext parent, int invokingState) {
+		public Get_assignmentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_output; }
+		@Override public int getRuleIndex() { return RULE_get_assignment; }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof Example2Visitor ) return ((Example2Visitor<? extends T>)visitor).visitOutput(this);
+			if ( visitor instanceof Example2Visitor ) return ((Example2Visitor<? extends T>)visitor).visitGet_assignment(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final OutputContext output() throws RecognitionException {
-		OutputContext _localctx = new OutputContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_output);
+	public final Get_assignmentContext get_assignment() throws RecognitionException {
+		Get_assignmentContext _localctx = new Get_assignmentContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_get_assignment);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -543,25 +543,25 @@ public class Example2Parser extends Parser {
 		return _localctx;
 	}
 
-	public static class DefineContext extends ParserRuleContext {
+	public static class Global_declarationsContext extends ParserRuleContext {
 		public TerminalNode PARANL() { return getToken(Example2Parser.PARANL, 0); }
 		public TerminalNode ID() { return getToken(Example2Parser.ID, 0); }
 		public TerminalNode INT() { return getToken(Example2Parser.INT, 0); }
 		public TerminalNode PARANR() { return getToken(Example2Parser.PARANR, 0); }
-		public DefineContext(ParserRuleContext parent, int invokingState) {
+		public Global_declarationsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_define; }
+		@Override public int getRuleIndex() { return RULE_global_declarations; }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof Example2Visitor ) return ((Example2Visitor<? extends T>)visitor).visitDefine(this);
+			if ( visitor instanceof Example2Visitor ) return ((Example2Visitor<? extends T>)visitor).visitGlobal_declarations(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final DefineContext define() throws RecognitionException {
-		DefineContext _localctx = new DefineContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_define);
+	public final Global_declarationsContext global_declarations() throws RecognitionException {
+		Global_declarationsContext _localctx = new Global_declarationsContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_global_declarations);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{

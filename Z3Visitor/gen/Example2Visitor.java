@@ -49,15 +49,15 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIte(Example2Parser.IteContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Example2Parser#output}.
+	 * Visit a parse tree produced by {@link Example2Parser#get_assignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitOutput(Example2Parser.OutputContext ctx);
+	T visitGet_assignment(Example2Parser.Get_assignmentContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Example2Parser#define}.
+	 * Visit a parse tree produced by {@link Example2Parser#global_declarations}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDefine(Example2Parser.DefineContext ctx);
+	T visitGlobal_declarations(Example2Parser.Global_declarationsContext ctx);
 }

@@ -38,8 +38,8 @@ checkSatResponse
 checkModelResponse
 model
 ite
-output
-define
+get_assignment
+global_declarations
 
 
 atn:
