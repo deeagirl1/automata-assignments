@@ -11,6 +11,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
 
     private final Map<String, Value> valueMap = new HashMap<>();
     Map<String, Value> secondMemory = new HashMap<>();
+    // TODO mix these two hashmaps together
     Map<String,Example2Parser.Code_blockContext> functionCode_blockMemory = new HashMap<>();
     Map<String, List<String>> functionParameterMemory = new HashMap<>();
 
@@ -354,6 +355,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
 
 
 
+        // TODO only visit the statements
         int index=0;
         Value returnValue = new Value(0);
         while(functionCode_blockMemory.get(ctx.ID().getText()).statement(index)!=null){
