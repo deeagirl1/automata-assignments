@@ -7,13 +7,14 @@ checkSatResponse    : SAT | UNSAT;
 
 checkModelResponse  : PARANL model* PARANR;
 
-model : (PARANL DEFINE_FUN ID PARANL PARANR INT NUMBER PARANR)             #modelR
-      | (PARANL DEFINE_FUN ID PARANL define define PARANR INT) checkOut*    #modelB;
+model : (PARANL DEFINE_FUN ID PARANL PARANR INT NUMBER PARANR)                           #modelR
+      | (PARANL DEFINE_FUN ID PARANL global_declarations* PARANR INT) ite PARANR         #modelB;
 
-checkOut: (PARANL ITE PARANL AND output output PARANR NUMBER) NUMBER? PARANR* ;
+ite: PARANL ITE PARANL AND get_assignment* PARANR NUMBER (NUMBER| ite)* PARANR;
 
-output: PARANL EQUAL ID NUMBER PARANR;
-define: PARANL ID INT PARANR;
+get_assignment: PARANL EQUAL ID NUMBER PARANR;
+
+global_declarations: PARANL ID INT PARANR;
 
 //tokens
 MODEL              : 'model';

@@ -43,11 +43,11 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitModelB(Example2Parser.ModelBContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Example2Parser#checkOut}.
+	 * Visit a parse tree produced by {@link Example2Parser#ite}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCheckOut(Example2Parser.CheckOutContext ctx);
+	T visitIte(Example2Parser.IteContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Example2Parser#output}.
 	 * @param ctx the parse tree

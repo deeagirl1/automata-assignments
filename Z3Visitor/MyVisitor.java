@@ -24,17 +24,15 @@ public class MyVisitor extends Example2BaseVisitor<Integer> {
         return null;
     }
 
-
     @Override
-    public Integer visitModelB(Example2Parser.ModelBContext ctx) {
-        for (int i = 0; i < ctx.checkOut().size(); i++) {
-            int firstNr = Integer.parseInt(ctx.checkOut(i).output(0).NUMBER().getText());
-            int secondNr = Integer.parseInt(ctx.checkOut(i).output(1).NUMBER().getText());
-            int value = Integer.parseInt(ctx.checkOut(i).NUMBER(0).getText());
-            SudokuGrid[firstNr-1][secondNr-1] = value;
-        }
-        return null;
+    public Integer visitIte(Example2Parser.IteContext ctx) {
+        int firstNr = Integer.parseInt(ctx.output(0).NUMBER().getText());
+        int secondNr = Integer.parseInt(ctx.output(1).NUMBER().getText());
+        int value = Integer.parseInt(ctx.NUMBER(0).getText());
+        SudokuGrid[firstNr-1][secondNr-1] = value;
+        return super.visitIte(ctx);
     }
+
 
 
     public void print2D(int arr[][]) {
