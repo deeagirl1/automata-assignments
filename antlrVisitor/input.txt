@@ -1,10 +1,11 @@
 int m = 10
-function myFunction(){
-    if (1 > 0){
-        return "Hell0"
+function myFunction(int gg){
+    if(gg > 0){
+      print m
+      return gg + m
     }
-    return "sss"
+    return gg
 }
 
-string c = myFunction()
+int c = myFunction(10)
 print c

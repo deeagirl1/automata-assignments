@@ -183,9 +183,6 @@ public class Example2Parser extends Parser {
 		public Function_declarationContext function_declaration() {
 			return getRuleContext(Function_declarationContext.class,0);
 		}
-		public ReturnStatContext returnStat() {
-			return getRuleContext(ReturnStatContext.class,0);
-		}
 		public Function_callContext function_call() {
 			return getRuleContext(Function_callContext.class,0);
 		}
@@ -194,6 +191,9 @@ public class Example2Parser extends Parser {
 		}
 		public VariablesContext variables() {
 			return getRuleContext(VariablesContext.class,0);
+		}
+		public ReturnStatContext returnStat() {
+			return getRuleContext(ReturnStatContext.class,0);
 		}
 		public StatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -245,28 +245,28 @@ public class Example2Parser extends Parser {
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(52);
-				returnStat();
+				function_call();
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(53);
-				function_call();
+				expression(0);
 				}
 				break;
 			case 7:
 				enterOuterAlt(_localctx, 7);
 				{
 				setState(54);
-				expression(0);
+				variables();
 				}
 				break;
 			case 8:
 				enterOuterAlt(_localctx, 8);
 				{
 				setState(55);
-				variables();
+				returnStat();
 				}
 				break;
 			}
@@ -1985,8 +1985,8 @@ public class Example2Parser extends Parser {
 		"\u0000\u0000,.\u0001\u0000\u0000\u0000-+\u0001\u0000\u0000\u0000./\u0005"+
 		"\u0000\u0000\u0001/\u0001\u0001\u0000\u0000\u000009\u0003\u0004\u0002"+
 		"\u000019\u0003\u0018\f\u000029\u0003\u0016\u000b\u000039\u0003\u0010\b"+
-		"\u000049\u0003\b\u0004\u000059\u0003\u0014\n\u000069\u0003$\u0012\u0000"+
-		"79\u0003\u0006\u0003\u000080\u0001\u0000\u0000\u000081\u0001\u0000\u0000"+
+		"\u000049\u0003\u0014\n\u000059\u0003$\u0012\u000069\u0003\u0006\u0003"+
+		"\u000079\u0003\b\u0004\u000080\u0001\u0000\u0000\u000081\u0001\u0000\u0000"+
 		"\u000082\u0001\u0000\u0000\u000083\u0001\u0000\u0000\u000084\u0001\u0000"+
 		"\u0000\u000085\u0001\u0000\u0000\u000086\u0001\u0000\u0000\u000087\u0001"+
 		"\u0000\u0000\u00009\u0003\u0001\u0000\u0000\u0000:;\u0005%\u0000\u0000"+

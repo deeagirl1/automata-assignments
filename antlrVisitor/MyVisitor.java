@@ -295,19 +295,30 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
     public Value visitIf_statement(Example2Parser.If_statementContext ctx) {
         var evaluatedBlock = false;
         Value evaluated = this.visit(ctx.condition_block().expression());
+        Value returnResult= null;
 
         if (Boolean.TRUE.equals(evaluated.asBoolean())) {
             evaluatedBlock = true;
-
-            this.visit(ctx.condition_block().code_block());
+            returnResult = getValue(ctx.condition_block().code_block(), ctx.condition_block().code_block());
         }
 
         if (!evaluatedBlock && ctx.code_block() != null) {
-
-            this.visit(ctx.code_block());
+            returnResult = getValue(ctx.code_block(), ctx.code_block());
         }
 
-        return new Value(new Object());
+        return returnResult;
+    }
+
+    private Value getValue(Example2Parser.Code_blockContext ctx, Example2Parser.Code_blockContext ctx1) {
+        Value returnResult = null;
+        for (Example2Parser.StatementContext statement : ctx.statement()) {
+            if(statement.returnStat() != null){
+                returnResult = this.visit(statement.returnStat());
+            }else {
+                this.visit(ctx1);
+            }
+        }
+        return returnResult;
     }
 
     @Override
@@ -339,12 +350,28 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         // TODO only visit the statements
         Value v = null;
         for (Example2Parser.StatementContext statement : functionCode_blockMemory.get(name).code_block().statement()) {
-            v = this.visit(statement); //Execute all statements
+            if(statement.if_statement() != null){
+                Value IsTrue = this.visit(statement.if_statement().condition_block().expression());
+                v = this.visit(statement); //Execute all statements
+//                Boolean.parseBoolean(IsTrue.asString());
+                 break;
+            }
+            else if (statement.returnStat() != null) {
+                v = this.visit(statement); //Execute all statements
+            }
         }
 
         valueMap.clear();
         valueMap.putAll(secondMemory);
         return v;
+    }
+
+    private boolean CheckReturnStatement(Example2Parser.StatementContext statement) {
+        if(statement.if_statement() != null){
+            Value IsTrue = this.visit(statement.if_statement().condition_block().expression());
+            return Boolean.parseBoolean(IsTrue.asString());
+        }
+        return false;
     }
 
     @Override

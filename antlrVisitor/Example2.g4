@@ -6,10 +6,10 @@ statement:   print_func
          |   while_statement
          |   if_statement
          |   function_declaration
-         |   returnStat
          |   function_call
          |   expression
          |   variables
+         |   returnStat
          ;
 
 print_func:   Print op=(INT| BOOLEAN |ID |STRING)  #printVar
