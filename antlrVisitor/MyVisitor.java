@@ -135,7 +135,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
             Value value = this.visit(ctx.expression());
             variable = new Value(value);
             valueMap.put(id,variable);
-            System.err.println("memory put: " + id + " = " + removeFirstAndLast(value.toString()));
+            System.err.println("memory put: " + id + " = " + value.toString());
         }
         return variable;
     }
@@ -169,8 +169,8 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         }
         if(ctx.op.getType() == Example2Parser.STRING){
             String id = ctx.STRING().getText();
-            System.err.println("print "+ removeFirstAndLast(id));
-            value = new Value(removeFirstAndLast(id));
+            System.err.println("print "+ id);
+            value = new Value(id);
         }
         if(ctx.op.getType() == Example2Parser.INT) {
             String id = ctx.INT().getText();
