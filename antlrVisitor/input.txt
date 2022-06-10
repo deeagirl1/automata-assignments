@@ -7,5 +7,4 @@ function myFunction(int gg){
     return gg
 }
 
-int c = myFunction(10)
-print c
+int c = myFunction(1)

@@ -17,6 +17,12 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStart2(Example2Parser.Start2Context ctx);
 	/**
+	 * Visit a parse tree produced by {@link Example2Parser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(Example2Parser.StatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Example2Parser#checkSatResponse}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -35,13 +41,6 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitModelR(Example2Parser.ModelRContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code modelB}
-	 * labeled alternative in {@link Example2Parser#model}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitModelB(Example2Parser.ModelBContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Example2Parser#ite}.
 	 * @param ctx the parse tree

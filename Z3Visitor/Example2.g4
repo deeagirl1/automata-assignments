@@ -1,14 +1,18 @@
 grammar Example2;
 
 // rules
-start2		: checkSatResponse checkModelResponse EOF;
+start2		: statement* EOF;
 
-checkSatResponse    : SAT | UNSAT;
+
+statement : checkSatResponse
+          | checkModelResponse
+          ;
+
+checkSatResponse    : SAT | UNSAT | UNKNOWN;
 
 checkModelResponse  : PARANL model* PARANR;
 
-model : (PARANL DEFINE_FUN ID PARANL PARANR INT NUMBER PARANR)                           #modelR
-      | (PARANL DEFINE_FUN ID PARANL global_declarations* PARANR INT) ite PARANR         #modelB;
+model : (PARANL DEFINE_FUN ID PARANL global_declarations* PARANR INT) (NUMBER | ite)  PARANR   #modelR;
 
 ite: PARANL ITE PARANL AND get_assignment* PARANR NUMBER (NUMBER| ite)* PARANR;
 

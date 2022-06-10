@@ -107,7 +107,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         if(valueMap.get(id) != null){
             value = valueMap.get(id);
             valueMap.put(id, value);
-            System.err.println("Added id to letterstack: "+id+" meaning adding "+ value +" to numberstack");
+            System.err.println("Added id to letterStack: "+id+" meaning adding "+ value +" to numberStack");
         }
         return value;
     }
@@ -140,12 +140,12 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         return variable;
     }
 
-    private String removeFirstAndLast(String str) {
-        StringBuilder sb = new StringBuilder(str);
-        sb.deleteCharAt(str.length() - 1);
-        sb.deleteCharAt(0);
-        return sb.toString();
-    }
+//    private String removeFirstAndLast(String str) {
+//        StringBuilder sb = new StringBuilder(str);
+//        sb.deleteCharAt(str.length() - 1);
+//        sb.deleteCharAt(0);
+//        return sb.toString();
+//    }
 
     @Override
     public Value visitStringAssignValue(Example2Parser.StringAssignValueContext ctx) {
@@ -324,7 +324,7 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
     @Override
     public Value visitFunction_declaration(Example2Parser.Function_declarationContext ctx) {
         String id=(ctx.ID().getText());
-        //we save the context in memory so we can visit it later
+        //we save the context in memory, so we can visit it later
         functionCode_blockMemory.put(id,ctx.function_block());
         return Value.VOID;
     }
@@ -333,32 +333,23 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
     public Value visitFunction_call(Example2Parser.Function_callContext ctx) {
         String name=ctx.ID().getText();
 
-        Map<String, Value> functVariablesMemory = new HashMap<>();
+        Map<String, Value> functionVariablesMemory = new HashMap<>();
 
         for (int i = 0; i < functionCode_blockMemory.get(name).parameters_funcDec().ID().size(); i++)
         {
             String formalParam= functionCode_blockMemory.get(name).parameters_funcDec().ID().get(i).getText();
             Value actualParam= this.visit(ctx.parameters_funcCall().expression(i));
-            functVariablesMemory.put(formalParam,actualParam);
+            functionVariablesMemory.put(formalParam,actualParam);
             print("Formal Parameter: " +formalParam + " -> " + "Actual Parameter: " + actualParam);
         }
 
         secondMemory.putAll(valueMap);
-        valueMap.putAll(functVariablesMemory);
+        valueMap.putAll(functionVariablesMemory);
 
-
-        // TODO only visit the statements
         Value v = null;
+        print(functionCode_blockMemory.get(name).code_block().getText());
         for (Example2Parser.StatementContext statement : functionCode_blockMemory.get(name).code_block().statement()) {
-            if(statement.if_statement() != null){
-                Value IsTrue = this.visit(statement.if_statement().condition_block().expression());
-                v = this.visit(statement); //Execute all statements
-//                Boolean.parseBoolean(IsTrue.asString());
-                 break;
-            }
-            else if (statement.returnStat() != null) {
-                v = this.visit(statement); //Execute all statements
-            }
+            v = this.visit(statement);
         }
 
         valueMap.clear();
@@ -366,19 +357,10 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         return v;
     }
 
-    private boolean CheckReturnStatement(Example2Parser.StatementContext statement) {
-        if(statement.if_statement() != null){
-            Value IsTrue = this.visit(statement.if_statement().condition_block().expression());
-            return Boolean.parseBoolean(IsTrue.asString());
-        }
-        return false;
-    }
-
     @Override
     public Value visitReturnStat(Example2Parser.ReturnStatContext ctx) {
         return this.visit(ctx.expression());
     }
-
 
     private void print(String val){
         System.err.println(val);

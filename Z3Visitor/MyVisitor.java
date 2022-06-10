@@ -17,10 +17,19 @@ public class MyVisitor extends Example2BaseVisitor<Integer> {
         return null;
     }
 
+
+
     @Override
     public Integer visitModelR(Example2Parser.ModelRContext ctx) {
         String id = ctx.ID().getText();
-        SudokuGrid[Integer.parseInt(id.substring(1,2))-1][Integer.parseInt(id.substring(2,3))-1] = Integer.parseInt(ctx.NUMBER().getText());
+        if (ctx.ite() == null)
+        {
+            SudokuGrid[Integer.parseInt(id.substring(1,2))-1][Integer.parseInt(id.substring(2,3))-1] = Integer.parseInt(ctx.NUMBER().getText());
+        }
+        else
+        {
+            this.visit(ctx.ite());
+        }
         return null;
     }
 
