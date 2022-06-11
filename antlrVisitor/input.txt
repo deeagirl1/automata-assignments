@@ -1,7 +1,16 @@
-int m = 10
-function myFunction(int a, int b){
-    return a + b
-
+function check(int a){
+    if(a > 10){
+       a = 0
+       while(a < 10){
+           a++
+       }
+    }else{
+       a = 0
+       while(a < 5){
+           a++
+       }
+    }
+    print a
 }
 
-int c = myFunction(1,2)
+check(5)

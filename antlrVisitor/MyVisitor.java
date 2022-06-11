@@ -1,5 +1,5 @@
-import gen.Example2BaseVisitor;
-import gen.Example2Parser;
+//import gen.Example2BaseVisitor;
+//import gen.Example2Parser;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.*;
@@ -341,14 +341,16 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
 
         Value v = null;
 
-        for (int i = 0; i <functionCode_blockMemory.get(name).code_block().statement().size(); i++) {
-            v = this.visit(functionCode_blockMemory.get(name).code_block().statement(i));
-            if (v == null)
-            {
-                v = this.visit(functionCode_blockMemory.get(name).code_block().statement(i+1));
-            }
-            break;
-
+        for(var statement : functionCode_blockMemory.get(name).code_block().statement()){
+             if(statement.if_statement() != null && statement.returnStat() != null){
+                 Value condition = this.visit(statement.if_statement().condition_block().expression());
+                 if(Boolean.parseBoolean(condition.asString())){
+                     v = this.visit(statement);
+                     break;
+                 }
+             }else {
+                 v = this.visit(statement);
+             }
         }
 
         valueMap.clear();
