@@ -1,9 +1,10 @@
-int m = 10
 function check(int a){
-    if(a > 0){
-       return a + m
+    if(a > 10){
+       return True
     }
-    return m
+    else{
+       return False
+    }
 }
-
-int d = check(5)
+bool result = check(0)
+print result
