@@ -177,6 +177,9 @@ public class Example2Parser extends Parser {
 		public While_statementContext while_statement() {
 			return getRuleContext(While_statementContext.class,0);
 		}
+		public ReturnStatContext returnStat() {
+			return getRuleContext(ReturnStatContext.class,0);
+		}
 		public If_statementContext if_statement() {
 			return getRuleContext(If_statementContext.class,0);
 		}
@@ -191,9 +194,6 @@ public class Example2Parser extends Parser {
 		}
 		public VariablesContext variables() {
 			return getRuleContext(VariablesContext.class,0);
-		}
-		public ReturnStatContext returnStat() {
-			return getRuleContext(ReturnStatContext.class,0);
 		}
 		public StatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -231,42 +231,42 @@ public class Example2Parser extends Parser {
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(50);
-				if_statement();
+				returnStat();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(51);
-				function_declaration();
+				if_statement();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(52);
-				function_call();
+				function_declaration();
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(53);
-				expression(0);
+				function_call();
 				}
 				break;
 			case 7:
 				enterOuterAlt(_localctx, 7);
 				{
 				setState(54);
-				variables();
+				expression(0);
 				}
 				break;
 			case 8:
 				enterOuterAlt(_localctx, 8);
 				{
 				setState(55);
-				returnStat();
+				variables();
 				}
 				break;
 			}
@@ -1984,9 +1984,9 @@ public class Example2Parser extends Parser {
 		"\u0000*-\u0001\u0000\u0000\u0000+)\u0001\u0000\u0000\u0000+,\u0001\u0000"+
 		"\u0000\u0000,.\u0001\u0000\u0000\u0000-+\u0001\u0000\u0000\u0000./\u0005"+
 		"\u0000\u0000\u0001/\u0001\u0001\u0000\u0000\u000009\u0003\u0004\u0002"+
-		"\u000019\u0003\u0018\f\u000029\u0003\u0016\u000b\u000039\u0003\u0010\b"+
-		"\u000049\u0003\u0014\n\u000059\u0003$\u0012\u000069\u0003\u0006\u0003"+
-		"\u000079\u0003\b\u0004\u000080\u0001\u0000\u0000\u000081\u0001\u0000\u0000"+
+		"\u000019\u0003\u0018\f\u000029\u0003\b\u0004\u000039\u0003\u0016\u000b"+
+		"\u000049\u0003\u0010\b\u000059\u0003\u0014\n\u000069\u0003$\u0012\u0000"+
+		"79\u0003\u0006\u0003\u000080\u0001\u0000\u0000\u000081\u0001\u0000\u0000"+
 		"\u000082\u0001\u0000\u0000\u000083\u0001\u0000\u0000\u000084\u0001\u0000"+
 		"\u0000\u000085\u0001\u0000\u0000\u000086\u0001\u0000\u0000\u000087\u0001"+
 		"\u0000\u0000\u00009\u0003\u0001\u0000\u0000\u0000:;\u0005%\u0000\u0000"+

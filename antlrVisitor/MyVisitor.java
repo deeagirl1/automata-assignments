@@ -140,13 +140,6 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         return variable;
     }
 
-//    private String removeFirstAndLast(String str) {
-//        StringBuilder sb = new StringBuilder(str);
-//        sb.deleteCharAt(str.length() - 1);
-//        sb.deleteCharAt(0);
-//        return sb.toString();
-//    }
-
     @Override
     public Value visitStringAssignValue(Example2Parser.StringAssignValueContext ctx) {
         String id = ctx.ID().getText();
@@ -347,9 +340,15 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         valueMap.putAll(functionVariablesMemory);
 
         Value v = null;
-        print(functionCode_blockMemory.get(name).code_block().getText());
-        for (Example2Parser.StatementContext statement : functionCode_blockMemory.get(name).code_block().statement()) {
-            v = this.visit(statement);
+
+        for (int i = 0; i <functionCode_blockMemory.get(name).code_block().statement().size(); i++) {
+            v = this.visit(functionCode_blockMemory.get(name).code_block().statement(i));
+            if (v == null)
+            {
+                v = this.visit(functionCode_blockMemory.get(name).code_block().statement(i+1));
+            }
+            break;
+
         }
 
         valueMap.clear();

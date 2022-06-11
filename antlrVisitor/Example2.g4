@@ -4,12 +4,13 @@ start2		: statement* EOF;
 
 statement:   print_func
          |   while_statement
+         |   returnStat
          |   if_statement
          |   function_declaration
          |   function_call
          |   expression
          |   variables
-         |   returnStat
+
          ;
 
 print_func:   Print op=(INT| BOOLEAN |ID |STRING)  #printVar

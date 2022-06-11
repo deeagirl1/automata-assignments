@@ -1,10 +1,7 @@
 int m = 10
-function myFunction(int gg){
-    if(gg > 0){
-      print m
-      return gg + m
-    }
-    return gg
+function myFunction(int a, int b){
+    return a + b
+
 }
 
-int c = myFunction(1)
+int c = myFunction(1,2)
