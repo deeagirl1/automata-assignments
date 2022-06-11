@@ -1,16 +1,9 @@
+int m = 10
 function check(int a){
-    if(a > 10){
-       a = 0
-       while(a < 10){
-           a++
-       }
-    }else{
-       a = 0
-       while(a < 5){
-           a++
-       }
+    if(a > 0){
+       return a + m
     }
-    print a
+    return m
 }
 
-check(5)
+int d = check(5)
