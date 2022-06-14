@@ -13,6 +13,8 @@ class MyListener extends MyGrammarBaseListener
 	private final Stack<String> indexStack = new Stack<>();
 	private final Stack<String> nameStack = new Stack<>();
 
+	private final Stack<String> functionsName= new Stack<>();
+
 	private Graph graph = new Graph();
 
 	public Graph getGraph()
@@ -23,6 +25,9 @@ class MyListener extends MyGrammarBaseListener
 	@Override()
 	public void exitValueString(MyGrammarParser.ValueStringContext ctx) {
 		String value = ctx.TEXT().getText().replace("\"", "");
+		if(functionsName.size() > 3){
+			return;
+		}
 		if(value.contains(":"))
 		{
 			String[] values = ctx.TEXT().getText().split(":");
@@ -39,11 +44,17 @@ class MyListener extends MyGrammarBaseListener
 
 	@Override()
 	public void enterValueBasicNumber(MyGrammarParser.ValueBasicNumberContext ctx) {
+		if(functionsName.size() > 3){
+			return;
+		}
 		indexStack.push(ctx.NUMBER().getText());
 	}
 
     @Override
     public void exitValueLogicalExpr(MyGrammarParser.ValueLogicalExprContext ctx) {
+		if(functionsName.size() > 3){
+			return;
+		}
         //Create Connection
         var endIndex = indexStack.pop();
         var startIndex = indexStack.pop();
@@ -54,6 +65,9 @@ class MyListener extends MyGrammarBaseListener
 
 	@Override
 	public void exitMyStart(MyGrammarParser.MyStartContext ctx) {
+		if(functionsName.size() > 3){
+			return;
+		}
 		indexStack.clear();
 		nameStack.clear();
 	}
@@ -61,6 +75,10 @@ class MyListener extends MyGrammarBaseListener
 	@Override
 	public void exitStatementFunction(MyGrammarParser.StatementFunctionContext ctx) {
 		String name = ctx.ID().getText();
+		functionsName.push(name);
+		if(functionsName.size() > 3){
+			return;
+		}
 		if (name.equals("InitState"))
 		{
 			graph.setInitState(indexStack.pop());
