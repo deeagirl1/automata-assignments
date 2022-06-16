@@ -3,6 +3,7 @@ digraph myAutomaton
  rankdir=LR; 
  "" [shape=none] 
 "1000" [shape=circle]
+"1001" [shape=doublecircle]
 "1002" [shape=circle]
 "1003" [shape=circle]
 "1004" [shape=circle]

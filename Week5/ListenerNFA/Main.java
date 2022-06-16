@@ -13,7 +13,7 @@ class MyListener extends MyGrammarBaseListener
 	private final Stack<String> indexStack = new Stack<>();
 	private final Stack<String> nameStack = new Stack<>();
 
-	private final Stack<String> functionsName= new Stack<>();
+	private final List<String> functionsName= new ArrayList<>();
 
 	private Graph graph = new Graph();
 
@@ -24,50 +24,39 @@ class MyListener extends MyGrammarBaseListener
 
 	@Override()
 	public void exitValueString(MyGrammarParser.ValueStringContext ctx) {
+		if(check()) return;
 		String value = ctx.TEXT().getText().replace("\"", "");
-		if(functionsName.size() > 3){
-			return;
-		}
-		if(value.contains(":"))
-		{
+		if (value.contains(":")) {
 			String[] values = ctx.TEXT().getText().split(":");
 
-			for (var string: values) {
+			for (var string : values) {
 				graph.addEndNode(string.replace("\"", ""));
 			}
-		}
-		else if(value.length() == 1)
-		{
+		} else if (value.length() == 1) {
 			nameStack.push(value);
 		}
 	}
 
 	@Override()
 	public void enterValueBasicNumber(MyGrammarParser.ValueBasicNumberContext ctx) {
-		if(functionsName.size() > 3){
-			return;
-		}
+		if(check()) return;
 		indexStack.push(ctx.NUMBER().getText());
 	}
 
     @Override
     public void exitValueLogicalExpr(MyGrammarParser.ValueLogicalExprContext ctx) {
-		if(functionsName.size() > 3){
-			return;
-		}
-        //Create Connection
-        var endIndex = indexStack.pop();
-        var startIndex = indexStack.pop();
-        String name = nameStack.pop();
-        Connection connection = new Connection(startIndex, endIndex, name);
-        graph.addConnection(connection);
+		if(check()) return;
+		var endIndex = indexStack.pop();
+		var startIndex = indexStack.pop();
+		String name = nameStack.pop();
+		Connection connection = new Connection(startIndex, endIndex, name);
+		graph.addConnection(connection);
     }
+
 
 	@Override
 	public void exitMyStart(MyGrammarParser.MyStartContext ctx) {
-		if(functionsName.size() > 3){
-			return;
-		}
+		if(check()) return;
 		indexStack.clear();
 		nameStack.clear();
 	}
@@ -75,18 +64,19 @@ class MyListener extends MyGrammarBaseListener
 	@Override
 	public void exitStatementFunction(MyGrammarParser.StatementFunctionContext ctx) {
 		String name = ctx.ID().getText();
-		functionsName.push(name);
-		if(functionsName.size() > 3){
-			return;
+		functionsName.add(name);
+		if (name.contains("InitState") || name.contains("MaxState") || name.contains("FinalStates") || name.contains("A")){
+			if (name.contains("InitState")) {
+				graph.setInitState(indexStack.pop());
+			} else if (name.equals("MaxState")) {
+				graph.setMaxState(indexStack.pop());
+			}
 		}
-		if (name.equals("InitState"))
-		{
-			graph.setInitState(indexStack.pop());
-		}
-		else if (name.equals("MaxState"))
-		{
-			graph.setMaxState(indexStack.pop());
-		}
+
+	}
+
+	private boolean check() {
+		return functionsName.size() > 3;
 	}
 }
 

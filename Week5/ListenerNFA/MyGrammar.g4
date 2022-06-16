@@ -9,7 +9,7 @@ checkSatResponse    : SAT | UNSAT | UNKNOWN;
 
 checkModelResponse  :   MODEL? declarFun* ;
 
-declarFun : PARANL DEFINE_FUN ID PARANL parameter* PARANR types expr* PARANR*   # StatementFunction;
+declarFun : PARANL DEFINE_FUN ID PARANL parameter* PARANR types expr* PARANR   # StatementFunction;
 
 parameter: PARANL ID types PARANR;
 
@@ -28,12 +28,12 @@ expr:
       | func_call           # ValueFunc_call
       ;
 
-func_call: PARANL (ID.'+' | ID) expr*? PARANR;
+func_call: PARANL (ID.PLUS | ID) expr*? PARANR;
 
 
 iteExpr: PARANL ITE expr expr expr PARANR;
 
-letExpr: PARANL LET PARANL expr* PARANR*;
+letExpr: PARANL LET PARANL expr* PARANR expr PARANR;
 
 logicalExpr :  PARANL OR expr* PARANR
              | PARANL AND expr* PARANR

@@ -1,5 +1,5 @@
 sat
-(model 
+(model
   (define-fun FinalStates () String
     "1001:1007:end")
   (define-fun InitState () Int

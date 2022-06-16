@@ -18,11 +18,8 @@ public class GraphViz {
     }
 
     private String getValue(String name, boolean endPoint) {
-        if(!name.contains("1001")){
             String shape = endPoint ? "doublecircle" : "circle";
             return String.format("\"%s\" [shape=%s]\n", name, shape);
-        }
-        return "";
     }
 
     private String getConnection(Connection connection)
