@@ -16,41 +16,41 @@ parameter: PARANL ID types PARANR;
 types: STRING | BOOL | INT;
 
 expr:
-        ID                  # ValueVariable
-      | BOOLEAN             # ValueBoolean
-      | NUMBER              # ValueBasicNumber
-      | TEXT                # ValueString
-      | comparisonExpr      # ValueComparisonExpresssion
-      | iteExpr             # StatementIfElse
-      | logicalExpr         # ValueLogicalExpr
-      | letExpr             # ValueLetExpr
-      | mathExpr            # ValueMathExpr
-      | func_call           # ValueFunc_call
-      ;
+       ID                  # ValueVariable
+     | BOOLEAN             # ValueBoolean
+     | NUMBER              # ValueBasicNumber
+     | TEXT                # ValueString
+     | comparisonExpr      # ValueComparisonExpresssion
+     | iteExpr             # StatementIfElse
+     | logicalExpr         # ValueLogicalExpr
+     | letExpr             # ValueLetExpr
+     | mathExpr            # ValueMathExpr
+     | func_call           # ValueFunc_call
+     ;
 
 func_call: PARANL (ID.PLUS | ID) expr*? PARANR;
 
 
 iteExpr: PARANL ITE expr expr expr PARANR;
 
-letExpr: PARANL LET PARANL expr* PARANR expr PARANR;
+letExpr: PARANL LET PARANL expr+ PARANR expr PARANR;
 
-logicalExpr :  PARANL OR expr* PARANR
-             | PARANL AND expr* PARANR
-             | PARANL NOT expr* PARANR;
+logicalExpr :  PARANL OR expr*  PARANR
+            | PARANL AND expr* PARANR
+            | PARANL NOT expr PARANR;
 
 comparisonExpr:
-              PARANL LESS_THAN expr* PARANR
-            | PARANL GREATER_THAN expr* PARANR
-            | PARANL GREATER_THAN_OR_EQUAL expr* PARANR
-            | PARANL LESS_THAN_OR_EQUAL expr* PARANR
-            | PARANL EQUAL expr* PARANR
-            ;
+             PARANL LESS_THAN expr expr PARANR
+           | PARANL GREATER_THAN expr expr PARANR
+           | PARANL GREATER_THAN_OR_EQUAL expr expr PARANR
+           | PARANL LESS_THAN_OR_EQUAL expr expr PARANR
+           | PARANL EQUAL expr expr PARANR
+           ;
 
 mathExpr : PARANL PLUS expr* PARANR
-         | PARANL MINUS expr* PARANR
-         | PARANL DIVIDE expr* PARANR
-         | PARANL MULTIPLY expr* PARANR;
+        | PARANL MINUS expr* PARANR
+        | PARANL DIVIDE expr* PARANR
+        | PARANL MULTIPLY expr* PARANR;
 
 //tokens
 MODEL                   : 'model';
