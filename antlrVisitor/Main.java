@@ -1,6 +1,6 @@
-import gen.Example2Lexer;
-import gen.Example2Parser;
-import gen.Example2Visitor;
+//import gen.Example2Lexer;
+//import gen.Example2Parser;
+//import gen.Example2Visitor;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 

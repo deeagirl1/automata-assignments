@@ -4,7 +4,6 @@ start2		: statement* EOF;
 
 statement:   print_func
          |   while_statement
-         |   for_statement
          |   returnStat
          |   if_statement
          |   function_declaration
@@ -42,14 +41,7 @@ if_statement:   IF condition_block (ELSE code_block)?;
 
 while_statement: WHILE condition_block;
 
-
-for_statement: 'for' for_block code_block
-;
-for_block: PARANL variables ';' expression ';' (expression | variables) PARANR
-;
-
-
-condition_block: PARANL expression PARANR (code_block)?;
+condition_block: PARANL expression PARANR code_block;
 
 code_block:   OPEN_CURLY_BRACKET statement* CLOSE_CURLY_BRACKET
           |   statement
@@ -68,7 +60,8 @@ int_variable :  IntType ID (IS_EQUAL mathExpression)?        # intAssign
              |  ID (ADD_INCREMENT| SUB_INCREMENT | INCREMENT | DECREMENT) mathExpression?  # incrementAndDecrementInt
              ;
 
-expression:   function_call  # FUNCTIONExpr
+expression:
+              function_call  # FUNCTIONExpr
           |   mathExpression #MathExp
           |   BOOLEAN        #ValueBoolean
           |   STRING         #ValueString
