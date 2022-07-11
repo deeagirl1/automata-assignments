@@ -1,5 +1,5 @@
-//import gen.Example2BaseVisitor;
-//import gen.Example2Parser;
+import gen.Example2BaseVisitor;
+import gen.Example2Parser;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.*;
@@ -68,6 +68,8 @@ public class MyVisitor extends Example2BaseVisitor<Value> {
         }
         return value;
     }
+
+
 
     @Override
     public Value visitAdd(Example2Parser.AddContext ctx) {

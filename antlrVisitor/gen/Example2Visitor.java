@@ -1,4 +1,5 @@
 // Generated from Example2.g4 by ANTLR 4.10.1
+package gen;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -95,6 +96,18 @@ public interface Example2Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitWhile_statement(Example2Parser.While_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Example2Parser#for_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFor_statement(Example2Parser.For_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Example2Parser#for_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFor_block(Example2Parser.For_blockContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Example2Parser#condition_block}.
 	 * @param ctx the parse tree

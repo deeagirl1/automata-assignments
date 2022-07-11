@@ -1,4 +1,5 @@
 // Generated from Example2.g4 by ANTLR 4.10.1
+package gen;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
